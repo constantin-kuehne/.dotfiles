@@ -54,10 +54,10 @@ Plug 'tpope/vim-fugitive'
 Plug 'untitled-ai/jupyter_ascending.vim'
 
 " Nerdtree file explorer
-Plug 'preservim/nerdtree'
+" Plug 'preservim/nerdtree'
 
 " Git Nerdtree
-Plug 'Xuyuanp/nerdtree-git-plugin'
+" Plug 'Xuyuanp/nerdtree-git-plugin'
 
 " ipy in vim
 Plug 'jpalardy/vim-slime', { 'for': 'python' }
@@ -74,8 +74,12 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 " Harpoon (fast file travelling) by ThePrimeagen
 Plug 'ThePrimeagen/harpoon'
 
+" requires
+Plug 'kyazdani42/nvim-web-devicons' " for file icons
+Plug 'kyazdani42/nvim-tree.lua'
+
 " Nertree file icons (always needs to be last)
-Plug 'ryanoasis/vim-devicons'
+" Plug 'ryanoasis/vim-devicons'
 
 call plug#end()
 
@@ -94,9 +98,10 @@ let g:airline_stl_path_style = 'short'
 " let g:airline#extensions#tabline#enabled = 1
 " let g:airline#extensions#tabline#formatter = 'unique_tail_improved' 
 
-let NERDTreeShowHidden = 1
-let NERDTreeMinimalUI = 1
-let g:NERDTreeQuitOnOpen = 1
+" let NERDTreeShowHidden = 1
+" let NERDTreeMinimalUI = 1
+" let g:NERDTreeQuitOnOpen = 1
+let g:nvim_tree_quit_on_open = 1
 
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv

@@ -1,1 +1,1 @@
-nnoremap <leader>nt <cmd>NERDTreeToggle<cr>
+" nnoremap <leader>nt <cmd>NERDTreeToggle<cr>
