@@ -69,6 +69,8 @@ Plug 'AckslD/nvim-neoclip.lua'
 " TODO plugin
 Plug 'folke/todo-comments.nvim'
 
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
+
 " Harpoon (fast file travelling) by ThePrimeagen
 Plug 'ThePrimeagen/harpoon'
 
@@ -87,6 +89,8 @@ let mapleader = " " " map leader to Space
 
 let g:airline_powerline_fonts = 1
 let g:airline_theme='base16_gruvbox_dark_hard'
+" let g:airline#extensions#tabline#fnamemod = ':t'
+let g:airline_stl_path_style = 'short'
 " let g:airline#extensions#tabline#enabled = 1
 " let g:airline#extensions#tabline#formatter = 'unique_tail_improved' 
 
@@ -147,4 +151,5 @@ augroup END
 function! JW_on_term_exit(a, b)
     normal q!
 endfunction
+
 nnoremap <silent> <Bslash> :below call term_start('env TERM=st-256color zsh', { 'exit_cb': 'JW_on_term_exit', 'term_name': 'zsh', 'norestore': 1 })<Return>

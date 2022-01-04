@@ -33,11 +33,13 @@ require("telescope").setup({
 require("telescope").load_extension("neoclip")
 require("neoclip").setup({
     keys = {
-        i = {
-          select = '<cr>',
-          paste = '<c-k>',
-          paste_behind = '<c-K>',
-          custom = {},
+        telescope = {
+            i = {
+              select = '<cr>',
+              paste = '<c-k>',
+              paste_behind = '<c-K>',
+              custom = {},
+            }
         }
     }
 })
