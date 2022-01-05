@@ -74,9 +74,12 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 " Harpoon (fast file travelling) by ThePrimeagen
 Plug 'ThePrimeagen/harpoon'
 
-" requires
+" file tree Plugin
 Plug 'kyazdani42/nvim-web-devicons' " for file icons
 Plug 'kyazdani42/nvim-tree.lua'
+
+" repl interpretation wich shows result in virtual text
+Plug 'michaelb/sniprun', {'do': 'bash install.sh'}
 
 " Nertree file icons (always needs to be last)
 " Plug 'ryanoasis/vim-devicons'
@@ -88,6 +91,7 @@ syntax on
 colorscheme gruvbox
 
 hi Normal guibg=NONE ctermbg=NONE
+hi SignColumn ctermbg=NONE guibg=NONE
 
 let mapleader = " " " map leader to Space
 
