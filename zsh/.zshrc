@@ -7,7 +7,6 @@ source $ZSH/oh-my-zsh.sh
 alias v="nvim"
 alias c="cd ~/Documents/Coding/"
 alias u="cd ~/Documents/Uni/"
-alias code="/usr/local/bin/code"
 
 # make virtualenv invisible (we see it in oh-my-zsh theme)
 export VIRTUAL_ENV_DISABLE_PROMPT=1
@@ -33,6 +32,8 @@ export NVM_DIR="$HOME/.nvm"
 #   alias npm='unalias nvm node npm && . "$NVM_DIR"/nvm.sh && npm'
 # fi
 
+export EDITOR="nvim"
+
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
 __conda_setup="$('/opt/homebrew/Caskroom/miniforge/base/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
@@ -50,9 +51,9 @@ unset __conda_setup
 
 
 # go path setting
-# export GOPATH=$HOME/go
-# export GOROOT="/usr/local/opt/go/libexec"
-# export PATH=$PATH:${GOPATH}/bin:${GOROOT}/bin
+export GOPATH=$HOME/go
+export GOROOT="/opt/homebrew/opt/go/libexec/"
+export PATH=$PATH:${GOPATH}/bin:${GOROOT}/bin
 
 # adding custom git commands
 zstyle ':completion:*:*:git:*' user-commands change-commits:'change all old commits'
@@ -60,4 +61,5 @@ zstyle ':completion:*:*:git:*' user-commands add-worktree:'add a worktree by onl
 zstyle ':completion:*:*:git:*:add-worktree:' user-commands wow:'wow'
 
 bindkey -v
+bindkey "^R" history-incremental-search-backward
 eval "$(starship init zsh)"

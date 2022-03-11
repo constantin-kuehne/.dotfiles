@@ -5,7 +5,6 @@ require'lspconfig'.gopls.setup{}
 require'lspconfig'.sumneko_lua.setup{}
 
 local signs = {
-
   { name = "DiagnosticSignError", text = "" },
   { name = "DiagnosticSignWarn", text = "" },
   { name = "DiagnosticSignHint", text = "" },

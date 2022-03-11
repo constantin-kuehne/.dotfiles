@@ -2,7 +2,7 @@ set path+=**
 
 set wildignore+=*.pyc
 set wildignore+=*_build/*
-set wildignore+=**/coverage/* 
+set wildignore+=**/coverage/*
 set wildignore+=**/node_modules/*
 set wildignore+=**/android/*
 set wildignore+=**/ios/*
@@ -22,6 +22,7 @@ Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend upda
 
 " Debugger
 Plug 'mfussenegger/nvim-dap'
+Plug 'rcarriga/nvim-dap-ui'
 Plug 'Pocco81/DAPInstall.nvim'
 
 " Telescope + requirements
@@ -69,7 +70,7 @@ Plug 'AckslD/nvim-neoclip.lua'
 " TODO plugin
 Plug 'folke/todo-comments.nvim'
 
-Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 
 " Harpoon (fast file travelling) by ThePrimeagen
 Plug 'ThePrimeagen/harpoon'
@@ -77,6 +78,9 @@ Plug 'ThePrimeagen/harpoon'
 " file tree Plugin
 Plug 'kyazdani42/nvim-web-devicons' " for file icons
 Plug 'kyazdani42/nvim-tree.lua'
+
+" show keymaps
+Plug 'folke/which-key.nvim'
 
 " repl interpretation wich shows result in virtual text
 Plug 'michaelb/sniprun', {'do': 'bash install.sh'}
@@ -160,5 +164,15 @@ augroup END
 function! JW_on_term_exit(a, b)
     normal q!
 endfunction
+
+" Use macro on all visual selected lines
+fun! RunMacroOverSelection(macroname)
+    execute "'<,'>normal @". a:macroname
+endfun
+
+" Command for useing run macro on visual selection
+com -nargs=1 Rover :call RunMacroOverSelection(<f-args>)
+
+nnoremap <leader>r :Rover<space>
 
 nnoremap <silent> <Bslash> :below call term_start('env TERM=st-256color zsh', { 'exit_cb': 'JW_on_term_exit', 'term_name': 'zsh', 'norestore': 1 })<Return>
