@@ -1,0 +1,7 @@
+{
+  "print value of variable": {
+    "prefix": "pvar",
+    "body": "fmt.Printf(\"%+v\\n\", ${1:var})",
+    "description": "Snippet for printing a value of a variable"
+  }
+}

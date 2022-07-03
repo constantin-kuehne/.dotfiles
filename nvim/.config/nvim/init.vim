@@ -23,7 +23,7 @@ Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend upda
 " Debugger
 Plug 'mfussenegger/nvim-dap'
 Plug 'rcarriga/nvim-dap-ui'
-Plug 'Pocco81/DAPInstall.nvim'
+Plug 'Pocco81/dap-buddy.nvim'
 
 " Telescope + requirements
 Plug 'nvim-lua/popup.nvim'
@@ -38,10 +38,10 @@ Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
-Plug 'saadparwaiz1/cmp_luasnip'
 Plug 'hrsh7th/nvim-cmp'
 
 " Snippets
+Plug 'saadparwaiz1/cmp_luasnip'
 Plug 'L3MON4D3/LuaSnip'
 Plug 'rafamadriz/friendly-snippets'
 
@@ -52,7 +52,7 @@ Plug 'sbdchd/neoformat'
 Plug 'tpope/vim-fugitive'
 
 " Jupyter Notebooks in neovim
-Plug 'untitled-ai/jupyter_ascending.vim'
+" Plug 'untitled-ai/jupyter_ascending.vim'
 
 " Nerdtree file explorer
 " Plug 'preservim/nerdtree'
@@ -61,8 +61,8 @@ Plug 'untitled-ai/jupyter_ascending.vim'
 " Plug 'Xuyuanp/nerdtree-git-plugin'
 
 " ipy in vim
-Plug 'jpalardy/vim-slime', { 'for': 'python' }
-Plug 'hanschen/vim-ipython-cell', { 'for': 'python' }
+" Plug 'jpalardy/vim-slime', { 'for': 'python' }
+" Plug 'hanschen/vim-ipython-cell', { 'for': 'python' }
 
 " Telescope Neoclip (search through clipboard)
 Plug 'AckslD/nvim-neoclip.lua'
@@ -70,7 +70,7 @@ Plug 'AckslD/nvim-neoclip.lua'
 " TODO plugin
 Plug 'folke/todo-comments.nvim'
 
-Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+" Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 
 " Harpoon (fast file travelling) by ThePrimeagen
 Plug 'ThePrimeagen/harpoon'
@@ -81,6 +81,9 @@ Plug 'kyazdani42/nvim-tree.lua'
 
 " show keymaps
 Plug 'folke/which-key.nvim'
+
+" show code outline
+Plug 'simrat39/symbols-outline.nvim'
 
 " repl interpretation wich shows result in virtual text
 Plug 'michaelb/sniprun', {'do': 'bash install.sh'}
@@ -109,7 +112,6 @@ let g:airline_stl_path_style = 'short'
 " let NERDTreeShowHidden = 1
 " let NERDTreeMinimalUI = 1
 " let g:NERDTreeQuitOnOpen = 1
-let g:nvim_tree_quit_on_open = 1
 
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv

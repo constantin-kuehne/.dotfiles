@@ -7,6 +7,7 @@ source $ZSH/oh-my-zsh.sh
 alias v="nvim"
 alias c="cd ~/Documents/Coding/"
 alias u="cd ~/Documents/Uni/"
+alias nvim_c="cd ~/.dotfiles/nvim/.config/nvim/"
 
 # make virtualenv invisible (we see it in oh-my-zsh theme)
 export VIRTUAL_ENV_DISABLE_PROMPT=1
@@ -33,6 +34,7 @@ export NVM_DIR="$HOME/.nvm"
 # fi
 
 export EDITOR="nvim"
+export NVIM_PATH="$HOME/.dotfiles/nvim/.config/nvim/"
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!

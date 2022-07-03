@@ -1,24 +1,3 @@
-vim.g.nvim_tree_icons = {
-  default = "",
-  symlink = "",
-  git = {
-    unstaged = "",
-    staged = "S",
-    unmerged = "",
-    renamed = "➜",
-    deleted = "",
-    untracked = "U",
-    ignored = "◌",
-  },
-  folder = {
-    default = "",
-    open = "",
-    empty = "",
-    empty_open = "",
-    symlink = "",
-  },
-}
-
 local nvim_tree = require("nvim-tree")
 
 local nvim_tree_config = require("nvim-tree.config")
@@ -26,6 +5,30 @@ local nvim_tree_config = require("nvim-tree.config")
 local tree_cb = nvim_tree_config.nvim_tree_callback
 
 nvim_tree.setup {
+  renderer = {
+      icons = {
+          glyphs = {
+              default = "",
+              symlink = "",
+              git = {
+                  unstaged = "",
+                  staged = "S",
+                  unmerged = "",
+                  renamed = "➜",
+                  deleted = "",
+                  untracked = "U",
+                  ignored = "◌",
+              },
+              folder = {
+                  default = "",
+                  open = "",
+                  empty = "",
+                  empty_open = "",
+                  symlink = "",
+              },
+          }
+      }
+  },
   disable_netrw = true,
   hijack_netrw = true,
   open_on_setup = false,
@@ -34,14 +37,14 @@ nvim_tree.setup {
     "dashboard",
     "alpha",
   },
-  auto_close = true,
+  actions = {
+    open_file = {
+       quit_on_open = true,
+    },
+  },
   open_on_tab = false,
   hijack_cursor = false,
   update_cwd = true,
-  update_to_buf_dir = {
-    enable = true,
-    auto_open = true,
-  },
   diagnostics = {
     enable = true,
     icons = {
@@ -74,7 +77,6 @@ nvim_tree.setup {
     height = 30,
     hide_root_folder = false,
     side = "left",
-    auto_resize = true,
     mappings = {
       custom_only = false,
       list = {
@@ -89,16 +91,5 @@ nvim_tree.setup {
   trash = {
     cmd = "trash",
     require_confirm = true,
-  },
-  quit_on_open = 1,
-  git_hl = 1,
-  disable_window_picker = 0,
-  root_folder_modifier = ":t",
-  show_icons = {
-    git = 1,
-    folders = 1,
-    files = 1,
-    folder_arrows = 1,
-    tree_width = 30,
   },
 }

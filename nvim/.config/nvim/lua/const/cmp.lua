@@ -2,7 +2,10 @@ local cmp = require("cmp")
 
 local luasnip = require("luasnip")
 
-require("luasnip/loaders/from_vscode").lazy_load()
+local luasnip_vscode = require("luasnip/loaders/from_vscode")
+
+luasnip_vscode.lazy_load({ paths = { "./my-snippets" } })
+luasnip_vscode.lazy_load()
 
 local check_backspace = function()
   local col = vim.fn.col "." - 1
@@ -69,6 +72,38 @@ cmp.setup({
             "i",
             "s",
         }),
+        ["<C-n>"] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+                cmp.select_next_item()
+            elseif luasnip.expandable() then
+                luasnip.expand()
+            elseif luasnip.expand_or_jumpable() then
+                luasnip.expand_or_jump()
+            elseif check_backspace() then
+                fallback()
+            else
+                fallback()
+            end
+        end, {
+            "i",
+            "s",
+        }),
+        ["<C-p>"] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+                cmp.select_prev_item()
+            elseif luasnip.expandable() then
+                luasnip.expand()
+            elseif luasnip.expand_or_jumpable() then
+                luasnip.expand_or_jump()
+            elseif check_backspace() then
+                fallback()
+            else
+                fallback()
+            end
+        end, {
+            "i",
+            "s",
+        }),
         ["<S-Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
                 cmp.select_prev_item()
@@ -97,12 +132,12 @@ cmp.setup({
                 -- path = "[Path]",
                 -- emoji = "[Emoji]",
 
-                nvim_lsp = "",
-                nvim_lua = "",
-                luasnip = "",
-                buffer = "",
-                path = "",
-                emoji = "",
+                -- nvim_lsp = "",
+                -- nvim_lua = "",
+                -- luasnip = "",
+                -- buffer = "",
+                -- path = "",
+                -- emoji = "",
             })[entry.source.name]
             return vim_item
         end,
