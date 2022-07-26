@@ -1,5 +1,5 @@
 export ZSH=$HOME/.oh-my-zsh
-plugins=(git)
+plugins=(git docker)
 # export ZSH_THEME="spaceship"
 # export ZSH_THEME="robbyrussell_custom"
 source $ZSH/oh-my-zsh.sh
