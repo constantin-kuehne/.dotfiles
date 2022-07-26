@@ -117,6 +117,7 @@ vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
 
 xnoremap <leader>p "_dP
+xnoremap <leader>P "+P
 nnoremap <leader>p "+p
 nnoremap <leader>P "+P
 
@@ -167,14 +168,8 @@ function! JW_on_term_exit(a, b)
     normal q!
 endfunction
 
-" Use macro on all visual selected lines
-fun! RunMacroOverSelection(macroname)
-    execute "'<,'>normal @". a:macroname
-endfun
+nnoremap <leader>r :'<,'>normal @
 
-" Command for useing run macro on visual selection
-com -nargs=1 Rover :call RunMacroOverSelection(<f-args>)
-
-nnoremap <leader>r :Rover<space>
+vnoremap <leader>r :'<,'>normal @
 
 nnoremap <silent> <Bslash> :below call term_start('env TERM=st-256color zsh', { 'exit_cb': 'JW_on_term_exit', 'term_name': 'zsh', 'norestore': 1 })<Return>
