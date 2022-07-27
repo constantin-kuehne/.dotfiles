@@ -1,7 +1,16 @@
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 require('lspconfig').pyright.setup{
     capabilities = capabilities,
-    cmd = { "pyright-langserver", "--stdio" , "-p $NVIM_PATH/pyright.json"}
+    settings = {
+        python = {
+            -- Settings: https://github.com/microsoft/pyright/blob/main/docs/settings.md#pyright-settings
+            analysis = {
+                typeCheckingMode = "basic",
+                -- Configuration: https://github.com/microsoft/pyright/blob/main/docs/configuration.md#diagnostic-rule-defaults
+                diagnosticSeverityOverrides = {}
+            }
+        }
+    }
 }
 require('lspconfig').tsserver.setup{capabilities = capabilities}
 require('lspconfig').dockerls.setup{capabilities = capabilities}
