@@ -130,6 +130,8 @@ vnoremap <leader>d "_d
 
 nnoremap <silent> <leader>th :new<CR>:term<CR><C-W>10-<CR>
 
+nnoremap <silent> <leader>l <cmd>lcl<CR><cmd>ccl<CR>
+
 " Make esc leave terminal mode
 tnoremap <Esc> <C-\><C-n>
 
@@ -170,6 +172,6 @@ endfunction
 
 nnoremap <leader>rq :'<,'>normal @
 
-vnoremap <leader>rq :'<,'>normal @
+vnoremap <leader>rq :normal @
 
 nnoremap <silent> <Bslash> :below call term_start('env TERM=st-256color zsh', { 'exit_cb': 'JW_on_term_exit', 'term_name': 'zsh', 'norestore': 1 })<Return>
