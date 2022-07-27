@@ -6,14 +6,16 @@ require("telescope").setup({
         prompt_prefix = " >",
         color_devicons = true,
 
-	previewer = true,
+        file_ignore_patterns = {".git/"},
+
+        previewer = true,
         file_previewer = require("telescope.previewers").vim_buffer_cat.new,
         grep_previewer = require("telescope.previewers").vim_buffer_vimgrep.new,
         qflist_previewer = require("telescope.previewers").vim_buffer_qflist.new,
 
-	layout_config = {
-		preview_cutoff = 1,
-	},
+        layout_config = {
+            preview_cutoff = 1,
+        },
 
         mappings = {
             i = {
@@ -35,10 +37,10 @@ require("neoclip").setup({
     keys = {
         telescope = {
             i = {
-              select = '<cr>',
-              paste = '<c-k>',
-              paste_behind = '<c-K>',
-              custom = {},
+                select = '<cr>',
+                paste = '<c-k>',
+                paste_behind = '<c-K>',
+                custom = {},
             }
         }
     }

@@ -168,8 +168,8 @@ function! JW_on_term_exit(a, b)
     normal q!
 endfunction
 
-nnoremap <leader>r :'<,'>normal @
+nnoremap <leader>rq :'<,'>normal @
 
-vnoremap <leader>r :'<,'>normal @
+vnoremap <leader>rq :'<,'>normal @
 
 nnoremap <silent> <Bslash> :below call term_start('env TERM=st-256color zsh', { 'exit_cb': 'JW_on_term_exit', 'term_name': 'zsh', 'norestore': 1 })<Return>
