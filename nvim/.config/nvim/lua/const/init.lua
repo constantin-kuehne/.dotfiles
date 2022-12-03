@@ -1,11 +1,37 @@
-require("const.telescope")
-require("const.lsp")
+require("const.set")
+require("const.packer")
+require("const.neogit")
 require("const.todo-comments")
-require("const.cmp")
-require("const.nvim-tree")
-require("const.dap")
-require("const.which-key")
--- require("const.sniprun")
-require("const.utils")
-require("const.symbols-outline")
-require("const.keymap")
+-- require("const.debugger")
+-- require("const.rtp")
+
+local augroup = vim.api.nvim_create_augroup
+ConstGroup = augroup('Const', {})
+
+local autocmd = vim.api.nvim_create_autocmd
+local yank_group = augroup('HighlightYank', {})
+
+function R(name)
+    require("plenary.reload").reload_module(name)
+end
+
+autocmd('TextYankPost', {
+    group = yank_group,
+    pattern = '*',
+    callback = function()
+        vim.highlight.on_yank({
+            higroup = 'IncSearch',
+            timeout = 100,
+        })
+    end,
+})
+
+autocmd({"BufWritePre"}, {
+    group = ConstGroup,
+    pattern = "*",
+    command = "%s/\\s\\+$//e",
+})
+
+vim.g.netrw_browse_split = 0
+vim.g.netrw_banner = 0
+vim.g.netrw_winsize = 25

@@ -1,4 +1,4 @@
-local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 local nnoremap = require('const.keymap').nnoremap
 
 local on_attach = function()
@@ -6,6 +6,7 @@ local on_attach = function()
     nnoremap("gd", vim.lsp.buf.definition, {buffer=0})
     nnoremap("gt", vim.lsp.buf.type_definition, {buffer=0})
     nnoremap("gi", vim.lsp.buf.implementation, {buffer=0})
+    nnoremap("<leader>lf", vim.lsp.buf.format, {buffer=0})
     nnoremap("<leader>rn", vim.lsp.buf.rename, {buffer=0})
     nnoremap("<leader>rr", vim.lsp.buf.references, {buffer=0})
     nnoremap("<leader>ca", vim.lsp.buf.code_action, {buffer=0})

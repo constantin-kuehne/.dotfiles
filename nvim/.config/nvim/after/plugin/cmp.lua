@@ -4,7 +4,7 @@ local luasnip = require("luasnip")
 
 local luasnip_vscode = require("luasnip/loaders/from_vscode")
 
-luasnip_vscode.lazy_load({ paths = { "./my-snippets" } })
+luasnip_vscode.lazy_load({ paths = { "./snippets" } })
 luasnip_vscode.lazy_load()
 
 local check_backspace = function()
