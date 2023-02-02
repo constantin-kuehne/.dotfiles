@@ -1,5 +1,6 @@
 local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 local nnoremap = require('const.keymap').nnoremap
+local builtin = require('telescope.builtin')
 
 local on_attach = function()
     nnoremap("K", vim.lsp.buf.hover, {buffer=0})
@@ -13,11 +14,11 @@ local on_attach = function()
     nnoremap("<leader>dj", vim.diagnostic.goto_next, {buffer=0})
     nnoremap("<leader>dk", vim.diagnostic.goto_prev, {buffer=0})
     nnoremap("<leader>dK", vim.diagnostic.open_float, {buffer=0})
-    nnoremap("<leader>fe", "<CMD>Telescope diagnostics<CR>")
-    nnoremap("<leader>fi", "<CMD>Telescope lsp_implementations<CR>")
-    nnoremap("<leader>fd", "<CMD>Telescope lsp_definitions<CR>")
-    nnoremap("<leader>fr", "<CMD>Telescope lsp_references<CR>")
-    nnoremap("<leader>ft", "<CMD>Telescope lsp_type_definitions<CR>")
+    nnoremap("<leader>fe", builtin.diagnostics)
+    nnoremap("<leader>fi", builtin.lsp_implementations)
+    nnoremap("<leader>fd", builtin.lsp_definitions)
+    nnoremap("<leader>fr", builtin.lsp_references)
+    nnoremap("<leader>ft", builtin.lsp_type_definitions)
 end
 
 -- python lsp server

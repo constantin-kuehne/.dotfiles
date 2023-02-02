@@ -25,6 +25,7 @@ vnoremap("<leader>d", "\"_d")
 --     vim.lsp.buf.format()
 -- end)
 
-nnoremap("<leader>rq", "<cmd>'<,'>normal @")
+nnoremap("<leader>rq", "<cmd>'<,'>normal @<cr>")
 
-vnoremap("<leader>rq", "<cmd>normal @")
+vnoremap("<leader>rq", "<cmd>normal @<cr>")
+

@@ -16,32 +16,32 @@ local nmap = require("const.keymap").nmap
 local imap = require("const.keymap").imap
 local xmap = require("const.keymap").xmap
 
-nnoremap("<leader>s", "<cmd>SlimeSend1 ipython --matplotlib<cr>")
-nnoremap("<Leader>r", ":IPythonCellRun<CR>")
+nnoremap("<leader>is", "<cmd>SlimeSend1 ipython --matplotlib<cr>")
+nnoremap("<leader>ir", ":IPythonCellRun<CR>")
 
-nnoremap("<Leader>R", ":IPythonCellRunTime<CR>")
+nnoremap("<leader>iR", ":IPythonCellRunTime<CR>")
 
-nnoremap("<Leader>c", ":IPythonCellExecuteCell<CR>")
+nnoremap("<leader>ic", ":IPythonCellExecuteCell<CR>")
 
-nnoremap("<Leader>C", ":IPythonCellExecuteCellJump<CR>")
+nnoremap("<leader>iC", ":IPythonCellExecuteCellJump<CR>")
 
-nnoremap("<Leader>l", ":IPythonCellClear<CR>")
+nnoremap("<leader>il", ":IPythonCellClear<CR>")
 
-nnoremap("<Leader>x", ":IPythonCellClose<CR>")
+nnoremap("<leader>ix", ":IPythonCellClose<CR>")
 
 nnoremap("[c", ":IPythonCellPrevCell<CR>")
 nnoremap("]c", ":IPythonCellNextCell<CR>")
 
-nmap("<Leader>h", "<Plug>SlimeLineSend")
-xmap("<Leader>h", "<Plug>SlimeRegionSend")
+nmap("<leader>ih", "<Plug>SlimeLineSend")
+xmap("<leader>ih", "<Plug>SlimeRegionSend")
 
-nnoremap("<Leader>p", ":IPythonCellPrevCommand<CR>")
+nnoremap("<leader>ip", ":IPythonCellPrevCommand<CR>")
 
-nnoremap("<Leader>Q", ":IPythonCellRestart<CR>")
+nnoremap("<leader>iQ", ":IPythonCellRestart<CR>")
 
-nnoremap("<Leader>d", ":SlimeSend1 %debug<CR>")
+nnoremap("<leader>id", ":SlimeSend1 %debug<CR>")
 
-nnoremap("<Leader>q", ":SlimeSend1 exit<CR>")
+nnoremap("<leader>iq", ":SlimeSend1 exit<CR>")
 
 nmap("<F9>", ":IPythonCellInsertAbove<CR>a")
 nmap("<F10>", ":IPythonCellInsertBelow<CR>a")
