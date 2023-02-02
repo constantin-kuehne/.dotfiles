@@ -2,6 +2,7 @@ require("const.set")
 require("const.packer")
 require("const.neogit")
 require("const.todo-comments")
+require("const.telescope")
 -- require("const.debugger")
 -- require("const.rtp")
 
@@ -26,7 +27,7 @@ autocmd('TextYankPost', {
     end,
 })
 
-autocmd({"BufWritePre"}, {
+autocmd({ "BufWritePre" }, {
     group = ConstGroup,
     pattern = "*",
     command = "%s/\\s\\+$//e",

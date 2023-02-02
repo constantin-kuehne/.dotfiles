@@ -119,11 +119,6 @@ _G.packer_plugins = {
     path = "/Users/constantinkuehne/.local/share/nvim/site/pack/packer/start/lualine.nvim",
     url = "https://github.com/nvim-lualine/lualine.nvim"
   },
-  neoformat = {
-    loaded = true,
-    path = "/Users/constantinkuehne/.local/share/nvim/site/pack/packer/start/neoformat",
-    url = "https://github.com/sbdchd/neoformat"
-  },
   neogit = {
     loaded = true,
     path = "/Users/constantinkuehne/.local/share/nvim/site/pack/packer/start/neogit",
@@ -140,6 +135,7 @@ _G.packer_plugins = {
     url = "https://github.com/neovim/nvim-lspconfig"
   },
   ["nvim-neoclip.lua"] = {
+    config = { "\27LJ\2\n¨\1\0\0\a\0\v\0\0156\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\t\0005\3\a\0005\4\5\0005\5\3\0004\6\0\0=\6\4\5=\5\6\4=\4\b\3=\3\n\2B\0\2\1K\0\1\0\tkeys\1\0\0\14telescope\1\0\0\6i\1\0\0\vcustom\1\0\3\npaste\n<c-k>\vselect\t<cr>\17paste_behind\n<c-K>\nsetup\fneoclip\frequire\0" },
     loaded = true,
     path = "/Users/constantinkuehne/.local/share/nvim/site/pack/packer/start/nvim-neoclip.lua",
     url = "https://github.com/AckslD/nvim-neoclip.lua"
@@ -211,11 +207,15 @@ _G.packer_plugins = {
 }
 
 time([[Defining packer_plugins]], false)
+-- Config for: nvim-neoclip.lua
+time([[Config for nvim-neoclip.lua]], true)
+try_loadstring("\27LJ\2\n¨\1\0\0\a\0\v\0\0156\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\t\0005\3\a\0005\4\5\0005\5\3\0004\6\0\0=\6\4\5=\5\6\4=\4\b\3=\3\n\2B\0\2\1K\0\1\0\tkeys\1\0\0\14telescope\1\0\0\6i\1\0\0\vcustom\1\0\3\npaste\n<c-k>\vselect\t<cr>\17paste_behind\n<c-K>\nsetup\fneoclip\frequire\0", "config", "nvim-neoclip.lua")
+time([[Config for nvim-neoclip.lua]], false)
 vim.cmd [[augroup packer_load_aucmds]]
 vim.cmd [[au!]]
   -- Filetype lazy-loads
 time([[Defining lazy-load filetype autocommands]], true)
-vim.cmd [[au FileType python ++once lua require("packer.load")({'vim-slime', 'vim-ipython-cell'}, { ft = "python" }, _G.packer_plugins)]]
+vim.cmd [[au FileType python ++once lua require("packer.load")({'vim-ipython-cell', 'vim-slime'}, { ft = "python" }, _G.packer_plugins)]]
 time([[Defining lazy-load filetype autocommands]], false)
 vim.cmd("augroup END")
 

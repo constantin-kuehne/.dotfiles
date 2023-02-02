@@ -40,7 +40,24 @@ return require("packer").startup(function(use)
         run = ":TSUpdate"
     })
 
-    use("AckslD/nvim-neoclip.lua")
+    use({
+        "AckslD/nvim-neoclip.lua",
+        requires = { { "nvim-telescope/telescope.nvim" } },
+        config = function()
+            require('neoclip').setup({
+                keys = {
+                    telescope = {
+                        i = {
+                            select = '<cr>',
+                            paste = '<c-k>',
+                            paste_behind = '<c-K>',
+                            custom = {},
+                        }
+                    }
+                }
+            })
+        end
+    })
 
     use("romgrk/nvim-treesitter-context")
 
