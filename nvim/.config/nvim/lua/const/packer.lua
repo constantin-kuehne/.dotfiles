@@ -78,5 +78,6 @@ return require("packer").startup(function(use)
         ft = { "python" }
     })
 
+    use("mbbill/undotree")
 
 end)

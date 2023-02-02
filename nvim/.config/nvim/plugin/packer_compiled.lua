@@ -135,7 +135,7 @@ _G.packer_plugins = {
     url = "https://github.com/neovim/nvim-lspconfig"
   },
   ["nvim-neoclip.lua"] = {
-    config = { "\27LJ\2\n¨\1\0\0\a\0\v\0\0156\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\t\0005\3\a\0005\4\5\0005\5\3\0004\6\0\0=\6\4\5=\5\6\4=\4\b\3=\3\n\2B\0\2\1K\0\1\0\tkeys\1\0\0\14telescope\1\0\0\6i\1\0\0\vcustom\1\0\3\npaste\n<c-k>\vselect\t<cr>\17paste_behind\n<c-K>\nsetup\fneoclip\frequire\0" },
+    config = { "\27LJ\2\n¨\1\0\0\a\0\v\0\0156\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\t\0005\3\a\0005\4\5\0005\5\3\0004\6\0\0=\6\4\5=\5\6\4=\4\b\3=\3\n\2B\0\2\1K\0\1\0\tkeys\1\0\0\14telescope\1\0\0\6i\1\0\0\vcustom\1\0\3\17paste_behind\n<c-K>\npaste\n<c-k>\vselect\t<cr>\nsetup\fneoclip\frequire\0" },
     loaded = true,
     path = "/Users/constantinkuehne/.local/share/nvim/site/pack/packer/start/nvim-neoclip.lua",
     url = "https://github.com/AckslD/nvim-neoclip.lua"
@@ -190,6 +190,11 @@ _G.packer_plugins = {
     path = "/Users/constantinkuehne/.local/share/nvim/site/pack/packer/start/tokyonight.nvim",
     url = "https://github.com/folke/tokyonight.nvim"
   },
+  undotree = {
+    loaded = true,
+    path = "/Users/constantinkuehne/.local/share/nvim/site/pack/packer/start/undotree",
+    url = "https://github.com/mbbill/undotree"
+  },
   ["vim-ipython-cell"] = {
     loaded = false,
     needs_bufread = false,
@@ -209,7 +214,7 @@ _G.packer_plugins = {
 time([[Defining packer_plugins]], false)
 -- Config for: nvim-neoclip.lua
 time([[Config for nvim-neoclip.lua]], true)
-try_loadstring("\27LJ\2\n¨\1\0\0\a\0\v\0\0156\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\t\0005\3\a\0005\4\5\0005\5\3\0004\6\0\0=\6\4\5=\5\6\4=\4\b\3=\3\n\2B\0\2\1K\0\1\0\tkeys\1\0\0\14telescope\1\0\0\6i\1\0\0\vcustom\1\0\3\npaste\n<c-k>\vselect\t<cr>\17paste_behind\n<c-K>\nsetup\fneoclip\frequire\0", "config", "nvim-neoclip.lua")
+try_loadstring("\27LJ\2\n¨\1\0\0\a\0\v\0\0156\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\t\0005\3\a\0005\4\5\0005\5\3\0004\6\0\0=\6\4\5=\5\6\4=\4\b\3=\3\n\2B\0\2\1K\0\1\0\tkeys\1\0\0\14telescope\1\0\0\6i\1\0\0\vcustom\1\0\3\17paste_behind\n<c-K>\npaste\n<c-k>\vselect\t<cr>\nsetup\fneoclip\frequire\0", "config", "nvim-neoclip.lua")
 time([[Config for nvim-neoclip.lua]], false)
 vim.cmd [[augroup packer_load_aucmds]]
 vim.cmd [[au!]]
