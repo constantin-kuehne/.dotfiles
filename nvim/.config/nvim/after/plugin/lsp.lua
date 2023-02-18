@@ -3,17 +3,17 @@ local nnoremap = require('const.keymap').nnoremap
 local builtin = require('telescope.builtin')
 
 local on_attach = function()
-    nnoremap("K", vim.lsp.buf.hover, {buffer=0})
-    nnoremap("gd", vim.lsp.buf.definition, {buffer=0})
-    nnoremap("gt", vim.lsp.buf.type_definition, {buffer=0})
-    nnoremap("gi", vim.lsp.buf.implementation, {buffer=0})
-    nnoremap("<leader>lf", vim.lsp.buf.format, {buffer=0})
-    nnoremap("<leader>rn", vim.lsp.buf.rename, {buffer=0})
-    nnoremap("<leader>rr", vim.lsp.buf.references, {buffer=0})
-    nnoremap("<leader>ca", vim.lsp.buf.code_action, {buffer=0})
-    nnoremap("<leader>dj", vim.diagnostic.goto_next, {buffer=0})
-    nnoremap("<leader>dk", vim.diagnostic.goto_prev, {buffer=0})
-    nnoremap("<leader>dK", vim.diagnostic.open_float, {buffer=0})
+    nnoremap("K", vim.lsp.buf.hover, { buffer = 0 })
+    nnoremap("gd", vim.lsp.buf.definition, { buffer = 0 })
+    nnoremap("gt", vim.lsp.buf.type_definition, { buffer = 0 })
+    nnoremap("gi", vim.lsp.buf.implementation, { buffer = 0 })
+    nnoremap("<leader>lf", vim.lsp.buf.format, { buffer = 0 })
+    nnoremap("<leader>rn", vim.lsp.buf.rename, { buffer = 0 })
+    nnoremap("<leader>rr", vim.lsp.buf.references, { buffer = 0 })
+    nnoremap("<leader>ca", vim.lsp.buf.code_action, { buffer = 0 })
+    nnoremap("<leader>dj", vim.diagnostic.goto_next, { buffer = 0 })
+    nnoremap("<leader>dk", vim.diagnostic.goto_prev, { buffer = 0 })
+    nnoremap("<leader>dK", vim.diagnostic.open_float, { buffer = 0 })
     nnoremap("<leader>fe", builtin.diagnostics)
     nnoremap("<leader>fi", builtin.lsp_implementations)
     nnoremap("<leader>fd", builtin.lsp_definitions)
@@ -22,7 +22,7 @@ local on_attach = function()
 end
 
 -- python lsp server
-require('lspconfig').pyright.setup{
+require('lspconfig').pyright.setup {
     capabilities = capabilities,
     on_attach = on_attach,
     settings = {
@@ -37,22 +37,22 @@ require('lspconfig').pyright.setup{
     }
 }
 -- typescrtip/ javascript lsp server
-require('lspconfig').tsserver.setup{
+require('lspconfig').tsserver.setup {
     capabilities = capabilities,
     on_attach = on_attach
 }
 -- docker lsp server
-require('lspconfig').dockerls.setup{
+require('lspconfig').dockerls.setup {
     capabilities = capabilities,
     on_attach = on_attach
 }
 -- go lsp server
-require('lspconfig').gopls.setup{
+require('lspconfig').gopls.setup {
     capabilities = capabilities,
     on_attach = on_attach
 }
 -- lua lsp server
-require('lspconfig').sumneko_lua.setup{
+require('lspconfig').sumneko_lua.setup {
     capabilities = capabilities,
     on_attach = on_attach,
     settings = {
@@ -63,11 +63,12 @@ require('lspconfig').sumneko_lua.setup{
             },
             diagnostics = {
                 -- Get the language server to recognize the `vim` global
-                globals = {'vim'},
+                globals = { 'vim' },
             },
             workspace = {
                 -- Make the server aware of Neovim runtime files
                 library = vim.api.nvim_get_runtime_file("", true),
+                checkThirdParty = false,
             },
             -- Do not send telemetry data containing a randomized but unique identifier
             telemetry = {
@@ -77,17 +78,17 @@ require('lspconfig').sumneko_lua.setup{
     },
 }
 -- rust lsp server
-require('lspconfig').rust_analyzer.setup{
+require('lspconfig').rust_analyzer.setup {
     capabilities = capabilities,
     on_attach = on_attach
 }
 -- c lsp server
-require('lspconfig').clangd.setup{
+require('lspconfig').clangd.setup {
     capabilities = capabilities,
     on_attach = on_attach
 }
 -- tailwind lsp server
-require('lspconfig').tailwindcss.setup{
+require('lspconfig').tailwindcss.setup {
     capabilities = capabilities,
     on_attach = on_attach
 }

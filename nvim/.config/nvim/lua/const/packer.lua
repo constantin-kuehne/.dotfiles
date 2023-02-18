@@ -69,14 +69,16 @@ return require("packer").startup(function(use)
         "kyazdani42/nvim-tree.lua",
         requires = { "kyazdani42/nvim-web-devicons", opt = true }
     })
-    use({
-        "jpalardy/vim-slime",
-        ft = { "python" }
-    })
-    use({
-        "hanschen/vim-ipython-cell",
-        ft = { "python" }
-    })
+
+    -- use({
+    --     "jpalardy/vim-slime",
+    --     ft = { "python" }
+    -- })
+
+    -- use({
+    --     "hanschen/vim-ipython-cell",
+    --     ft = { "python" }
+    -- })
 
     use("mbbill/undotree")
 
