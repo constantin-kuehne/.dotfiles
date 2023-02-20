@@ -22,7 +22,7 @@ end
 vnoremap("J", ":m '>+1<CR>gv=gv")
 vnoremap("K", ":m '<-2<CR>gv=gv")
 
-nnoremap("<leader>l", quickfix_toggle, { silent = true })
+nnoremap("<leader>ll", quickfix_toggle, { silent = true })
 
 xnoremap("<leader>p", "\"_dp")
 xnoremap("<leader>P", "\"_dP")
