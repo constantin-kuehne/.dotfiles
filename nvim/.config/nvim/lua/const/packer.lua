@@ -40,6 +40,8 @@ return require("packer").startup(function(use)
         run = ":TSUpdate"
     })
 
+    use("nvim-treesitter/playground")
+
     use({
         "AckslD/nvim-neoclip.lua",
         requires = { { "nvim-telescope/telescope.nvim" } },
@@ -81,5 +83,11 @@ return require("packer").startup(function(use)
     -- })
 
     use("mbbill/undotree")
+
+
+    use("folke/neodev.nvim")
+
+    -- local packages (in development)
+    use("/home/kuehne/personal/projects/ipython-tmux.nvim/")
 
 end)

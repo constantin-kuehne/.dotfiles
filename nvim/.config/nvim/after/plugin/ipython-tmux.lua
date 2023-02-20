@@ -1,0 +1,2 @@
+require("ipython-tmux").setup(
+)
