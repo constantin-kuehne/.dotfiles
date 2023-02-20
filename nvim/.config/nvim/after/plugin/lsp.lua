@@ -1,3 +1,4 @@
+require("neodev").setup({})
 local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 local nnoremap = require('const.keymap').nnoremap
 local builtin = require('telescope.builtin')
@@ -52,7 +53,7 @@ require('lspconfig').gopls.setup {
     on_attach = on_attach
 }
 -- lua lsp server
-require('lspconfig').sumneko_lua.setup {
+require('lspconfig').lua_ls.setup {
     capabilities = capabilities,
     on_attach = on_attach,
     settings = {
