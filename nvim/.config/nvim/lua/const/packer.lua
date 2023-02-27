@@ -1,8 +1,9 @@
 return require("packer").startup(function(use)
     use("wbthomason/packer.nvim")
 
-    -- Simple plugins can be specified as strings
+    -- Git plugins  TODO: Choose which one to use in future
     use("TimUntersberger/neogit")
+    use("tpope/vim-fugitive")
 
     -- TJ created lodash of neovim
     use("nvim-lua/plenary.nvim")
@@ -88,6 +89,6 @@ return require("packer").startup(function(use)
     use("folke/neodev.nvim")
 
     -- local packages (in development)
-    use("/home/kuehne/personal/projects/ipython-tmux.nvim/")
+    use("/Users/constantinkuehne/Documents/Coding/ipython-tmux.nvim")
 
 end)
