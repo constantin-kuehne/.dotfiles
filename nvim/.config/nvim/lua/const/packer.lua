@@ -83,12 +83,15 @@ return require("packer").startup(function(use)
     --     ft = { "python" }
     -- })
 
+    use("jose-elias-alvarez/null-ls.nvim")
+
     use("mbbill/undotree")
 
+    use('simrat39/symbols-outline.nvim')
 
     use("folke/neodev.nvim")
 
     -- local packages (in development)
-    use("/Users/constantinkuehne/Documents/Coding/ipython-tmux.nvim")
+    use("/home/kuehne/personal/projects/ipython-tmux.nvim")
 
 end)
