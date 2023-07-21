@@ -1,0 +1,7 @@
+{
+  "print value of variable": {
+    "prefix": "it",
+    "body": "# ignore: type",
+    "description": "Snippet for ignoring the type"
+  }
+}

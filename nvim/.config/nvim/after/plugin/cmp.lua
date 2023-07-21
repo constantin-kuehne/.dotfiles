@@ -7,11 +7,6 @@ local luasnip_vscode = require("luasnip/loaders/from_vscode")
 luasnip_vscode.lazy_load({ paths = { "./snippets" } })
 luasnip_vscode.lazy_load()
 
-local check_backspace = function()
-    local col = vim.fn.col "." - 1
-    return col == 0 or vim.fn.getline("."):sub(col, col):match "%s"
-end
-
 --   פּ ﯟ   蘒練 some other good icons
 local kind_icons = {
     Text = "",
@@ -56,31 +51,27 @@ cmp.setup({
             c = cmp.mapping.close(),
         },
         ['<CR>'] = cmp.mapping.confirm({ select = true }),
-        --["<Tab>"] = cmp.mapping(function(fallback)
-        --    if cmp.visible() then
-        --        cmp.select_next_item()
-        --    elseif luasnip.expandable() then
-        --        luasnip.expand()
-        --    elseif luasnip.expand_or_jumpable() then
-        --        luasnip.expand_or_jump()
-        --    elseif check_backspace() then
-        --        fallback()
-        --    else
-        --        fallback()
-        --    end
-        --end, {
-        --    "i",
-        --    "s",
-        --}),
+        ["<Tab>"] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+                cmp.select_next_item()
+            elseif luasnip.expandable() then
+                luasnip.expand()
+            elseif luasnip.expand_or_locally_jumpable() then
+                luasnip.expand_or_jump()
+            else
+                fallback()
+            end
+        end, {
+            "i",
+            "s",
+        }),
         ["<C-n>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
                 cmp.select_next_item()
             elseif luasnip.expandable() then
                 luasnip.expand()
-            elseif luasnip.expand_or_jumpable() then
+            elseif luasnip.expand_or_locally_jumpable() then
                 luasnip.expand_or_jump()
-            elseif check_backspace() then
-                fallback()
             else
                 fallback()
             end
@@ -93,10 +84,8 @@ cmp.setup({
                 cmp.select_prev_item()
             elseif luasnip.expandable() then
                 luasnip.expand()
-            elseif luasnip.expand_or_jumpable() then
+            elseif luasnip.expand_or_locally_jumpable() then
                 luasnip.expand_or_jump()
-            elseif check_backspace() then
-                fallback()
             else
                 fallback()
             end
@@ -104,18 +93,18 @@ cmp.setup({
             "i",
             "s",
         }),
-        -- ["<S-Tab>"] = cmp.mapping(function(fallback)
-        --     if cmp.visible() then
-        --         cmp.select_prev_item()
-        --     elseif luasnip.jumpable(-1) then
-        --         luasnip.jump(-1)
-        --     else
-        --         fallback()
-        --     end
-        -- end, {
-        --     "i",
-        --     "s",
-        -- }),
+        ["<S-Tab>"] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+                cmp.select_prev_item()
+            elseif luasnip.locally_jumpable(-1) then
+                luasnip.jump(-1)
+            else
+                fallback()
+            end
+        end, {
+            "i",
+            "s",
+        }),
     },
     formatting = {
         fields = { "kind", "abbr", "menu" },
