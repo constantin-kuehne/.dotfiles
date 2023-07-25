@@ -9,9 +9,7 @@ null_ls.setup({
     sources = {
         null_ls.builtins.formatting.black,
         null_ls.builtins.formatting.isort,
-        null_ls.builtins.formatting.prettier.with({
-            extra_args = { "--tab-width", "4" }
-        })
+        null_ls.builtins.formatting.prettierd
     },
     on_attach = on_attach,
 })

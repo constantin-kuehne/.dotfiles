@@ -9,7 +9,9 @@ local on_attach = function()
     nnoremap("gd", vim.lsp.buf.definition, { buffer = 0 })
     nnoremap("gt", vim.lsp.buf.type_definition, { buffer = 0 })
     nnoremap("gi", vim.lsp.buf.implementation, { buffer = 0 })
-    nnoremap("<leader>lf", vim.lsp.buf.format, { buffer = 0 })
+    nnoremap("<leader>lf", function()
+        vim.lsp.buf.format({ timeout = 3000 })
+    end, { buffer = 0 })
     nnoremap("<leader>rn", vim.lsp.buf.rename, { buffer = 0 })
     nnoremap("<leader>rr", vim.lsp.buf.references, { buffer = 0 })
     nnoremap("<leader>ca", vim.lsp.buf.code_action, { buffer = 0 })
@@ -104,10 +106,16 @@ require('lspconfig').clangd.setup({
 -- grammar lsp server
 require('lspconfig').ltex.setup({
     capabilities = capabilities,
-    on_attach = on_attach,
+    on_attach = function()
+        on_attach()
+        require('ltex_extra').setup({
+            load_langs = { 'en-GB', 'de-DE' },
+            path = vim.fn.expand("~") .. "/.local/share/ltex"
+        })
+    end,
     settings = {
         ltex = {
-            language = "de-DE"
+            language = "en-GB"
         }
     },
     autostart = false
