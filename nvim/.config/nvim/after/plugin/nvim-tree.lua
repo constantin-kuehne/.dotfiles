@@ -1,9 +1,5 @@
 local nvim_tree = require("nvim-tree")
 
-local nvim_tree_config = require("nvim-tree.config")
-
-local tree_cb = nvim_tree_config.nvim_tree_callback
-
 --
 -- This function has been generated from your
 --   view.mappings.list
@@ -94,7 +90,6 @@ local function on_attach(bufnr)
     vim.keymap.set('n', 'o', api.node.open.edit, opts('Open'))
     vim.keymap.set('n', 'h', api.node.navigate.parent_close, opts('Close Directory'))
     vim.keymap.set('n', 'v', api.node.open.vertical, opts('Open: Vertical Split'))
-
 end
 
 nvim_tree.setup({
