@@ -7,33 +7,33 @@ local luasnip_vscode = require("luasnip/loaders/from_vscode")
 luasnip_vscode.lazy_load({ paths = { "./snippets" } })
 luasnip_vscode.lazy_load()
 
---   פּ ﯟ   蘒練 some other good icons
 local kind_icons = {
-    Text = "",
+    Text = "󰉿",
     Method = "m",
-    Function = "",
-    Constructor = "",
+    Function = "󰊕",
+    Constructor = "",
     Field = "",
-    Variable = "",
-    Class = "",
+    Variable = "",
+    Class = "󰌗",
     Interface = "",
-    Module = "",
-    Property = "",
-    Unit = "",
-    Value = "",
+    Module = "",
+    Property = "󰜢",
+    Unit = "󰑭",
+    Value = "󰎠",
     Enum = "",
-    Keyword = "",
+    Keyword = "󰌋",
     Snippet = "",
-    Color = "",
-    File = "",
+    Color = "󰏘",
+    File = "󰈙",
     Reference = "",
-    Folder = "",
+    Folder = "󰉋",
     EnumMember = "",
-    Constant = "",
+    Constant = "",
     Struct = "",
     Event = "",
-    Operator = "",
-    TypeParameter = "",
+    Operator = "󰆕",
+    TypeParameter = "",
+    Misc = " "
 }
 
 cmp.setup({
