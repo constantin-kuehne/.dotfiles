@@ -92,6 +92,6 @@ return require("packer").startup(function(use)
     use("folke/neodev.nvim")
 
     -- local packages (in development)
-    use("/home/kuehne/personal/projects/ipython-tmux.nvim")
+    use("~/Documents/Coding/ipython-tmux.nvim")
 
 end)
