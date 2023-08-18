@@ -36,6 +36,10 @@ return require("packer").startup(function(use)
     -- Colorscheme section
     use("ellisonleao/gruvbox.nvim")
     use("folke/tokyonight.nvim")
+    use({
+        'rose-pine/neovim',
+        as = 'rose-pine',
+    })
 
     use("nvim-treesitter/nvim-treesitter", {
         run = ":TSUpdate"
@@ -94,5 +98,4 @@ return require("packer").startup(function(use)
 
     -- local packages (in development)
     use("~/Documents/Coding/ipython-tmux.nvim")
-
 end)

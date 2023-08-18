@@ -1,4 +1,5 @@
-vim.g.const_colorscheme = "gruvbox"
+vim.g.const_colorscheme = "tokyonight"
+
 -- setup must be called before loading the colorscheme
 -- Default options:
 require("gruvbox").setup({
@@ -19,6 +20,23 @@ require("gruvbox").setup({
     },
 })
 
+require('rose-pine').setup({
+    disable_background = true
+})
+
+require("tokyonight").setup({
+    style = "night",
+    transparent = false
+})
+
+function ColorMyPencils(color)
+    color = color or "rose-pine"
+    vim.cmd.colorscheme(color)
+
+    vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+    vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+end
+
+ColorMyPencils()
 
 vim.cmd("colorscheme " .. vim.g.const_colorscheme)
-
