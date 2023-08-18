@@ -1,13 +1,23 @@
 export ZSH=$HOME/.oh-my-zsh
-plugins=(git docker)
+plugins=(git docker conda-zsh-completion)
 # export ZSH_THEME="spaceship"
 # export ZSH_THEME="robbyrussell_custom"
 source $ZSH/oh-my-zsh.sh
+
+# latexmk Seminararbeit.tex -auxdir=./AUX -bibtex -pdflua -pvc
+
+export NOTES_PATH="~/Documents/Notes/"
+eval "tmux setenv notes_path $NOTES_PATH"
 
 alias v="nvim"
 alias c="cd ~/Documents/Coding/"
 alias u="cd ~/Documents/Uni/"
 alias nvim_c="cd ~/.dotfiles/nvim/.config/nvim/"
+alias notes="cd $NOTES_PATH && glow ."
+
+export EDITOR="nvim"
+export NVIM_PATH="$HOME/.dotfiles/nvim/.config/nvim/"
+
 
 # make virtualenv invisible (we see it in oh-my-zsh theme)
 export VIRTUAL_ENV_DISABLE_PROMPT=1
@@ -38,6 +48,7 @@ export NVM_DIR="$HOME/.nvm"
 export EDITOR="nvim"
 export NVIM_PATH="$HOME/.dotfiles/nvim/.config/nvim/"
 
+export PRETTIERD_DEFAULT_CONFIG="$HOME/.prettierrc"
 
 # go path setting
 export GOPATH=$HOME/go
@@ -71,4 +82,5 @@ if [ -f "/opt/homebrew/Caskroom/mambaforge/base/etc/profile.d/mamba.sh" ]; then
     . "/opt/homebrew/Caskroom/mambaforge/base/etc/profile.d/mamba.sh"
 fi
 # <<< conda initialize <<<
+
 
