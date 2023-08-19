@@ -3,7 +3,7 @@
 if [[ $# -eq 1 ]]; then
     selected=$1
 else
-    selected=$(find ~/Documents/Coding ~/Documents/Uni ~/OneDrive/Uni ~/.dotfiles/nvim/.config ~/.dotfiles -mindepth 1 -maxdepth 1 -type d | fzf)
+    selected=$((find ~/Documents/Coding ~/Documents/Uni ~/Library/CloudStorage/OneDrive-Personal/Uni ~/.dotfiles/nvim/.config ~/.dotfiles -mindepth 1 -maxdepth 1 -type d && find ~/Documents/Coding ~/Documents/Uni -mindepth 0 -maxdepth 0 -type d) | fzf)
 fi
 
 if [[ -z $selected ]]; then
