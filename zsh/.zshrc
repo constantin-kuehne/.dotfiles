@@ -1,8 +1,11 @@
 export ZSH=$HOME/.oh-my-zsh
+fpath=(/opt/homebrew/share/zsh/site-functions $fpath)
+
 plugins=(git docker conda-zsh-completion)
 # export ZSH_THEME="spaceship"
 # export ZSH_THEME="robbyrussell_custom"
 source $ZSH/oh-my-zsh.sh
+
 
 # latexmk Seminararbeit.tex -auxdir=./AUX -bibtex -pdflua -pvc
 
@@ -83,4 +86,10 @@ if [ -f "/opt/homebrew/Caskroom/mambaforge/base/etc/profile.d/mamba.sh" ]; then
 fi
 # <<< conda initialize <<<
 
+# opam configuration
+[[ ! -r /Users/constantinkuehne/.opam/opam-init/init.zsh ]] || source /Users/constantinkuehne/.opam/opam-init/init.zsh  > /dev/null 2> /dev/null
 
+export PATH="/opt/homebrew/opt/openjdk@11/bin:$PATH"
+export PATH="/usr/local/bin/code:$PATH"
+export MPLBACKEND="module://matplotlib-backend-kitty"
+export PYTHONPATH="$HOME/.matplotlib/matplotlib-backend-kitty/:$PYTHONPATH"
