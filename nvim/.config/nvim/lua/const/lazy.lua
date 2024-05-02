@@ -1,0 +1,141 @@
+-- local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+-- if not vim.loop.fs_stat(lazypath) then
+--     vim.fn.system({
+--         "git",
+--         "clone",
+--         "--filter=blob:none",
+--         "https://github.com/folke/lazy.nvim.git",
+--         "--branch=stable", -- latest stable release
+--         lazypath,
+--     })
+-- end
+-- vim.opt.rtp:prepend(lazypath)
+--
+-- require("lazy").setup({
+--     "wbthomason/packer.nvim",
+--
+--     -- Git plugins  TODO: Choose which one to use in future
+--     "tpope/vim-fugitive",
+--
+--     -- TJ created lodash of neovim
+--     "nvim-lua/plenary.nvim",
+--     "nvim-lua/popup.nvim",
+--     "nvim-telescope/telescope.nvim",
+--
+--     "kyazdani42/nvim-web-devicons",
+--
+--     {
+--         "nvim-lualine/lualine.nvim",
+--         requires = { "kyazdani42/nvim-web-devicons", opt = true }
+--     },
+--
+--     -- Language server support
+--     "neovim/nvim-lspconfig",
+--     "hrsh7th/cmp-nvim-lsp",
+--     "hrsh7th/cmp-buffer",
+--     "hrsh7th/cmp-path",
+--     "hrsh7th/nvim-cmp",
+--
+--     -- Snippets
+--     "saadparwaiz1/cmp_luasnip",
+--     "L3MON4D3/LuaSnip",
+--     "rafamadriz/friendly-snippets",
+--
+--
+--     "ThePrimeagen/harpoon",
+--
+--
+--     -- Colorscheme section
+--     "ellisonleao/gruvbox.nvim",
+--     "folke/tokyonight.nvim",
+--     {
+--         'rose-pine/neovim',
+--         as = 'rose-pine',
+--     },
+--
+--     "nvim-treesitter/nvim-treesitter",
+--
+--     "nvim-treesitter/playground",
+--
+--     {
+--         "AckslD/nvim-neoclip.lua",
+--         requires = { { "nvim-telescope/telescope.nvim" } },
+--         config = function()
+--             require('neoclip').setup({
+--                 keys = {
+--                     telescope = {
+--                         i = {
+--                             select = '<cr>',
+--                             paste = '<c-k>',
+--                             paste_behind = '<c-K>',
+--                             custom = {},
+--                         }
+--                     }
+--                 }
+--             })
+--         end
+--     },
+--
+--     "romgrk/nvim-treesitter-context",
+--
+--
+--     "folke/todo-comments.nvim",
+--
+--     -- File explorer
+--     {
+--         "kyazdani42/nvim-tree.lua",
+--         requires = { "kyazdani42/nvim-web-devicons", opt = true }
+--     },
+--
+--     -- use({
+--     --     "jpalardy/vim-slime",
+--     --     ft = { "python" }
+--     -- })
+--
+--     -- use({
+--     --     "hanschen/vim-ipython-cell",
+--     --     ft = { "python" }
+--     -- })
+--
+--     "nvimtools/none-ls.nvim",
+--
+--     "barreiroleo/ltex_extra.nvim",
+--
+--     {
+--         "rcarriga/nvim-notify",
+--         requires = { { "nvim-telescope/telescope.nvim" } },
+--         config = function()
+--             local log = require("plenary.log").new {
+--                 plugin = "notify",
+--                 level = "debug",
+--                 use_console = false,
+--             }
+--
+--             ---@diagnostic disable-next-line: duplicate-set-field
+--             vim.notify = function(msg, level, opts)
+--                 log.info(msg, level, opts)
+--                 if string.find(msg, "method .* is not supported") then
+--                     return
+--                 end
+--
+--                 require "notify" (msg, level, opts)
+--             end
+--         end,
+--     },
+--
+--     "mbbill/undotree",
+--
+--     "simrat39/symbols-outline.nvim",
+--
+--     "folke/neodev.nvim",
+--
+--
+--     -- use("meatballs/notebook.nvim")
+--     { "3rd/image.nvim",                            rocks = { "magick" } },
+--     { "benlubas/molten-nvim",                      run = ":UpdateRemotePlugins" },
+--
+--     -- local packages (in development)
+--     { dir = "~/Documents/Coding/notebook2.nvim" },
+--     -- use({ "~/Documents/Coding/magma-nvim", run = ':UpdateRemotePlugins' })
+--     { dir = "~/Documents/Coding/ipython-tmux.nvim" },
+-- })

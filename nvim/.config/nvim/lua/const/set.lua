@@ -51,5 +51,5 @@ vim.opt.colorcolumn = "80"
 vim.g.mapleader = " "
 
 vim.wo.foldmethod = "expr"
-vim.wo.foldexpr="nvim_treesitter#foldexpr()"
+vim.wo.foldexpr = "nvim_treesitter#foldexpr()"
 vim.wo.foldenable = false

@@ -2,7 +2,6 @@ return require("packer").startup(function(use)
     use("wbthomason/packer.nvim")
 
     -- Git plugins  TODO: Choose which one to use in future
-    use("TimUntersberger/neogit")
     use("tpope/vim-fugitive")
 
     -- TJ created lodash of neovim
@@ -87,7 +86,7 @@ return require("packer").startup(function(use)
     --     ft = { "python" }
     -- })
 
-    use("jose-elias-alvarez/null-ls.nvim")
+    use("nvimtools/none-ls.nvim")
 
     use("barreiroleo/ltex_extra.nvim")
 
@@ -119,6 +118,13 @@ return require("packer").startup(function(use)
 
     use("folke/neodev.nvim")
 
+
+    -- use("meatballs/notebook.nvim")
+    -- use({ "3rd/image.nvim", rocks = { "magick" } })
+    use({"benlubas/molten-nvim", run = ":UpdateRemotePlugins"})
+
     -- local packages (in development)
+    use("~/Documents/Coding/notebook.nvim")
+    -- use({ "~/Documents/Coding/magma-nvim", run = ':UpdateRemotePlugins' })
     use("~/Documents/Coding/ipython-tmux.nvim")
 end)

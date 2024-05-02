@@ -117,7 +117,7 @@ nvim_tree.setup({
             }
         }
     },
-    disable_netrw = true,
+    disable_netrw = false,
     hijack_netrw = true,
     actions = {
         open_file = {
@@ -156,7 +156,6 @@ nvim_tree.setup({
     },
     view = {
         width = 50,
-        hide_root_folder = false,
         side = "left",
         number = false,
         relativenumber = false,

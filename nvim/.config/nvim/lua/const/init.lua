@@ -1,10 +1,6 @@
 require("const.set")
 require("const.packer")
-require("const.neogit")
-require("const.todo-comments")
-require("const.telescope")
--- require("const.debugger")
--- require("const.rtp")
+require("const.lazy")
 
 local augroup = vim.api.nvim_create_augroup
 ConstGroup = augroup('Const', {})
