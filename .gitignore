@@ -1,2 +1,3 @@
 nvim/.config/nvim/plugged/*
 packer_compiled.*
+lazy-lock.json
