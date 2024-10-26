@@ -4,7 +4,7 @@ return {
     -- dependencies = {"nvim-treesitter/playground", "romgrk/nvim-treesitter-context"},
     config = function()
         require('nvim-treesitter.configs').setup({
-            ensure_installed = {"vimdoc", "vim", "python", "lua"},
+            ensure_installed = {"python", "lua"},
 
             sync_install = false,
 

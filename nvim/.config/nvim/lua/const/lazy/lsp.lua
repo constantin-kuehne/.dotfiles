@@ -48,8 +48,10 @@ return {
 
         require("fidget").setup({})
         require("mason").setup({
-            keymaps = {
-                apply_language_filter = "ff"
+            ui = {
+                keymaps = {
+                    apply_language_filter = "ff"
+                }
             }
         })
         require("mason-lspconfig").setup({
