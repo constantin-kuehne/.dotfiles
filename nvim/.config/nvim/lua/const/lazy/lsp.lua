@@ -47,7 +47,11 @@ return {
             cmp_lsp.default_capabilities())
 
         require("fidget").setup({})
-        require("mason").setup()
+        require("mason").setup({
+            keymaps = {
+                apply_language_filter = "ff"
+            }
+        })
         require("mason-lspconfig").setup({
             ensure_installed = { "lua_ls", "pyright", "gopls" },
             handlers = {

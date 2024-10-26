@@ -10,18 +10,11 @@ function ColorMyPencils(color)
     })
 end
 
-return {{"erikbackman/brightburn.vim"}, {
-    "folke/tokyonight.nvim",
-    lazy = false,
-    opts = {},
-    config = function()
-        ColorMyPencils()
-    end
-}, {
+return {
+    { "erikbackman/brightburn.vim" }, {
     "ellisonleao/gruvbox.nvim",
     name = "gruvbox",
     config = function()
-
         require("gruvbox").setup({
             overrides = {
                 SignColumn = {
@@ -58,17 +51,19 @@ return {{"erikbackman/brightburn.vim"}, {
                 }
             }
         })
-
     end
 }, {
     "folke/tokyonight.nvim",
+    lazy = false,
+    name = "tokyonight",
     config = function()
         require("tokyonight").setup({
             -- your configuration comes here
             -- or leave it empty to use the default settings
-            style = "night", -- The theme comes in three styles, `storm`, `moon`, a darker variant `night` and `day`
+            style = "night",    -- The theme comes in three styles, `storm`, `moon`, a darker variant `night` and `day`
             transparent = false -- Enable this to disable setting the background color
         })
+        ColorMyPencils()
     end
 }, {
     "rose-pine/neovim",
@@ -83,4 +78,4 @@ return {{"erikbackman/brightburn.vim"}, {
 
         ColorMyPencils();
     end
-}}
+} }
