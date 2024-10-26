@@ -1,6 +1,6 @@
 require("const.set")
-require("const.packer")
-require("const.lazy")
+require("const.remap")
+require("const.lazy_init")
 
 local augroup = vim.api.nvim_create_augroup
 ConstGroup = augroup('Const', {})
@@ -18,9 +18,9 @@ autocmd('TextYankPost', {
     callback = function()
         vim.highlight.on_yank({
             higroup = 'IncSearch',
-            timeout = 100,
+            timeout = 100
         })
-    end,
+    end
 })
 
 local function remove_whitespace()
@@ -32,7 +32,7 @@ end
 autocmd('BufWritePre', {
     group = ConstGroup,
     pattern = "*",
-    callback = remove_whitespace,
+    callback = remove_whitespace
 })
 
 vim.g.netrw_browse_split = 0
@@ -43,7 +43,9 @@ function Dump(o)
     if type(o) == 'table' then
         local s = '{ '
         for k, v in pairs(o) do
-            if type(k) ~= 'number' then k = '"' .. k .. '"' end
+            if type(k) ~= 'number' then
+                k = '"' .. k .. '"'
+            end
             s = s .. '[' .. k .. '] = ' .. Dump(v) .. ','
         end
         return s .. '} '
@@ -51,3 +53,30 @@ function Dump(o)
         return tostring(o)
     end
 end
+
+autocmd("LspAttach", {
+    group = ConstGroup,
+    callback = function(e)
+        local telescope_builtin = require("telescope.builtin")
+        local opts = {
+            buffer = e.buf
+        }
+        vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+        vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+        -- vim.keymap.set("n", "gt", vim.lsp.buf.type_defintion, opts)
+        vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
+        vim.keymap.set("n", "<leader>lf", vim.lsp.buf.format, opts)
+        vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
+        vim.keymap.set("n", "<leader>rr", vim.lsp.buf.references, opts)
+        vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
+        vim.keymap.set("v", "<leader>ca", vim.lsp.buf.code_action, opts)
+        vim.keymap.set("n", "<leader>dj", vim.diagnostic.goto_next, opts)
+        vim.keymap.set("n", "<leader>dk", vim.diagnostic.goto_prev, opts)
+        vim.keymap.set("n", "<leader>dK", vim.diagnostic.open_float, opts)
+        vim.keymap.set("n", "<leader>fe", telescope_builtin.diagnostics, opts)
+        vim.keymap.set("n", "<leader>fi", telescope_builtin.lsp_implementations, opts)
+        vim.keymap.set("n", "<leader>fd", telescope_builtin.lsp_definitions, opts)
+        vim.keymap.set("n", "<leader>fr", telescope_builtin.lsp_references, opts)
+        vim.keymap.set("n", "<leader>ft", telescope_builtin.lsp_type_definitions, opts)
+    end
+})
