@@ -2,7 +2,7 @@ return {
     "tpope/vim-fugitive",
     config = function()
         vim.keymap.set("n", "<leader>gs", vim.cmd.Git)
-        vim.keymap.set("n", "<leader>gc", vim.cmd.GitCommit)
+        vim.keymap.set("n", "<leader>gc", "<CMD>Git commit<CR>")
 
         local ThePrimeagen_Fugitive = vim.api.nvim_create_augroup("Const_Fugitive", {})
 
