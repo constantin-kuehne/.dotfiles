@@ -1,6 +1,15 @@
 return {
     "nvim-lualine/lualine.nvim",
-    dependencies = {"kyazdani42/nvim-web-devicons", "folke/tokyonight.nvim"},
+    dependencies = {
+        {
+            "echasnovski/mini.icons",
+            config = function()
+                require('mini.icons').setup()
+                MiniIcons.mock_nvim_web_devicons()
+            end
+        },
+        "folke/tokyonight.nvim"
+    },
     config = function()
         require("lualine").setup({
             options = {

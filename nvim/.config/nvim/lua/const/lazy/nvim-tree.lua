@@ -1,6 +1,7 @@
 return {
     "kyazdani42/nvim-tree.lua",
-    dependencies = {"kyazdani42/nvim-web-devicons"},
+    dependencies = { "kyazdani42/nvim-web-devicons" },
+    enabled = false,
     config = function()
         local nvim_tree = require("nvim-tree")
 
@@ -156,7 +157,7 @@ return {
             },
             filters = {
                 dotfiles = false,
-                custom = {"^.git$"}
+                custom = { "^.git$" }
             },
             git = {
                 enable = false,
@@ -196,7 +197,7 @@ return {
             require("nvim-tree.api").tree.open()
         end
 
-        vim.api.nvim_create_autocmd({"VimEnter"}, {
+        vim.api.nvim_create_autocmd({ "VimEnter" }, {
             callback = open_nvim_tree
         })
 
@@ -204,6 +205,5 @@ return {
         vim.keymap.set("n", "<leader>nt", nvim_tree_api.tree.toggle, {
             silent = true
         })
-
     end
 }
