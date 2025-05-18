@@ -16,7 +16,7 @@ return {
 
         telescope.setup({
             defaults = require('telescope.themes').get_ivy({
-                file_ignore_patterns = { ".git/", "venv", "__pycache__" }
+                file_ignore_patterns = { ".git/", "venv", "__pycache__", "wandb" }
             }),
             extensions = {
                 fzf = {
@@ -46,11 +46,11 @@ return {
             }
         })
 
-        local log = require("plenary.log").new {
+        local log = require("plenary.log").new({
             plugin = "notify",
             level = "debug",
             use_console = false
-        }
+        })
 
         ---@diagnostic disable-next-line: duplicate-set-field
         vim.notify = function(msg, level, opts)
@@ -65,7 +65,9 @@ return {
         local builtin = require("telescope.builtin")
         vim.keymap.set("n", "<leader>ff", function()
             builtin.find_files({
-                hidden = true
+                hidden = true,
+                no_ignore = true,
+                no_ignore_parent = true,
             })
         end)
 

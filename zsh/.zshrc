@@ -9,14 +9,17 @@ source $ZSH/oh-my-zsh.sh
 
 # latexmk Seminararbeit.tex -auxdir=./AUX -bibtex -pdflua -pvc
 
-export NOTES_PATH="~/Documents/Notes/"
+# export NOTES_PATH="~/Documents/Notes/"
+export NOTES_PATH="$HOME/Library/CloudStorage/OneDrive-Personal/Notes/Notes"
 eval "tmux setenv notes_path $NOTES_PATH"
 
 alias v="nvim"
 alias c="cd ~/Documents/Coding/"
 alias u="cd ~/Documents/Uni/"
 alias nvim_c="cd ~/.dotfiles/nvim/.config/nvim/"
-alias notes="cd $NOTES_PATH && glow ."
+alias notes="cd $NOTES_PATH && nvim $NOTES_PATH"
+alias python3="python"
+
 
 export EDITOR="nvim"
 export NVIM_PATH="$HOME/.dotfiles/nvim/.config/nvim/"
@@ -93,3 +96,6 @@ export PATH="/opt/homebrew/opt/openjdk@11/bin:$PATH"
 export PATH="/usr/local/bin/code:$PATH"
 export MPLBACKEND="module://matplotlib-backend-kitty"
 export PYTHONPATH="$HOME/.matplotlib/matplotlib-backend-kitty/:$PYTHONPATH"
+
+export FLINK_HOME="$HOME/flink-1.20.0/"
+export PATH="$FLINK_HOME/bin:$PATH"

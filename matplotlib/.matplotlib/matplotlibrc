@@ -232,13 +232,13 @@ text.color          : C0CAF5
 # http://matplotlib.org/api/axes_api.html#module-matplotlib.axes
 #axes.hold           : True    # whether to clear the axes by default on
 axes.facecolor      : 1A1B26   # axes background color
-#axes.edgecolor      : black   # axes edge color
+axes.edgecolor      : C0CAF5   # axes edge color
 #axes.linewidth      : 1.0     # edge linewidth
 #axes.grid           : False   # display grid or not
 #axes.titlesize      : large   # fontsize of the axes title
 #axes.labelsize      : medium  # fontsize of the x any y labels
 #axes.labelweight    : normal  # weight of the x and y labels
-#axes.labelcolor     : black
+axes.labelcolor     : C0CAF5
 #axes.axisbelow      : False   # whether axis gridlines and ticks are below
                                # the axes elements (lines, text, etc)
 
@@ -294,7 +294,7 @@ ytick.color          : C0CAF5      # color of the tick labels
 
 
 ### GRIDS
-#grid.color       :   black   # grid color
+grid.color       : C0CAF5   # grid color
 #grid.linestyle   :   :       # dotted
 #grid.linewidth   :   0.5     # in points
 #grid.alpha       :   1.0     # transparency, between 0.0 and 1.0

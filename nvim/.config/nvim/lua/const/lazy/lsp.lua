@@ -14,8 +14,8 @@ return {
     {
         "neovim/nvim-lspconfig",
         dependencies = {
-            "williamboman/mason.nvim",
-            "williamboman/mason-lspconfig.nvim",
+            "mason-org/mason.nvim",
+            "mason-org/mason-lspconfig.nvim",
             "rafamadriz/friendly-snippets",
             {
                 "saghen/blink.cmp",
@@ -69,6 +69,20 @@ return {
             "nvim-telescope/telescope.nvim",
             "barreiroleo/ltex_extra.nvim"
         },
+        opts = {
+            servers = {
+                ltex = {
+                    autostart = false, -- 👈 key line to stop autostart
+                    -- Optional: filetypes = {}  -- to avoid matching anything
+                },
+            },
+            setup = {
+                ltex = function(_, opts)
+                    require("lspconfig").ltex.setup(opts)
+                    return true -- ensure Mason doesn't reconfigure it
+                end,
+            },
+        },
         config = function()
             local cmp = require("cmp")
             local cmp_lsp = require("cmp_nvim_lsp")
@@ -89,222 +103,26 @@ return {
                 }
             })
 
-            local function on_attach(client, bufnr)
-                if client.server_capabilities.inlayHintProvider then
-                    vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-                end
-            end
-
-
             local lspconfig = require("lspconfig")
             require("mason-lspconfig").setup({
+                automatic_enable = true,
                 automatic_installation = true,
                 ensure_installed = { "gopls", "julials", "basedpyright" },
-                handlers = {
-                    function(server_name) -- default handler (optional)
-                        lspconfig[server_name].setup({
-                            capabilities = capabilities,
-                            on_attach = on_attach
-                        })
-                    end,
-                    ["julials"] = function()
-                        lspconfig.julials.setup({
-                            capabilities = (function()
-                                local capabilities = vim.lsp.protocol.make_client_capabilities()
-                                capabilities.textDocument.completion.completionItem.snippetSupport = true
-                                capabilities.textDocument.completion.completionItem.preselectSupport = true
-                                capabilities.textDocument.completion.completionItem.tagSupport = { valueSet = { 1 } }
-                                capabilities.textDocument.completion.completionItem.deprecatedSupport = true
-                                capabilities.textDocument.completion.completionItem.insertReplaceSupport = true
-                                capabilities.textDocument.completion.completionItem.labelDetailsSupport = true
-                                capabilities.textDocument.completion.completionItem.commitCharactersSupport = true
-                                capabilities.textDocument.completion.completionItem.resolveSupport = {
-                                    properties = { "documentation", "detail", "additionalTextEdits" },
-                                }
-                                capabilities.textDocument.completion.completionItem.documentationFormat = { "markdown" }
-                                capabilities.textDocument.codeAction = {
-                                    dynamicRegistration = true,
-                                    codeActionLiteralSupport = {
-                                        codeActionKind = {
-                                            valueSet = (function()
-                                                local res = vim.tbl_values(vim.lsp.protocol.CodeActionKind)
-                                                table.sort(res)
-                                                return res
-                                            end)(),
-                                        },
-                                    },
-                                }
-                                return capabilities
-                            end)(),
-                            on_attach = function(client, bufnr)
-                                vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
-                            end,
-                            on_new_config = function(new_config, _)
-                                local julia = vim.fn.expand("~/.julia/environments/nvim-lspconfig/bin/julia")
-                                if (vim.loop.fs_stat(julia) or {}).type == 'file' then
-                                    new_config.cmd[1] = julia
-                                end
-                            end,
-                        })
-                    end,
-                    ["lua_ls"] = function()
-                        lspconfig.lua_ls.setup({
-                            capabilities = capabilities,
-                            on_attach = on_attach,
-                            settings = {
-                                Lua = {
-                                    runtime = {
-                                        version = "Lua 5.1",
-                                    },
-                                    workspace = {
-                                        library = vim.api.nvim_get_runtime_file("", true),
-                                        checkThirdParty = true,
-                                    },
-                                    telemetry = {
-                                        enable = false,
-                                    },
-                                },
-                            },
-                        })
-                    end,
-                    ["pyright"] = function()
-                        lspconfig.pyright.setup({
-                            capabilities = capabilities,
-                            on_attach = on_attach,
-                            settings = {
-                                python = {
-                                    -- Settings: https://github.com/microsoft/pyright/blob/main/docs/settings.md#pyright-settings
-                                    pythonPath = "python",
-                                    analysis = {
-                                        typeCheckingMode = "off",
-                                        pythonVersion = "3.9",
-                                        -- Configuration: https://github.com/microsoft/pyright/blob/main/docs/configuration.md#diagnostic-rule-defaults
-                                        diagnosticSeverityOverrides = {
-                                            reportUnusedExpression = "none",
-                                        },
-                                    },
-                                },
-                            },
-                        })
-                    end,
-                    ["basedpyright"] = function()
-                        lspconfig.basedpyright.setup({
-                            capabilities = capabilities,
-                            on_attach = on_attach,
-                            settings = {
-                                python = {
-                                    pythonPath = "python",
-                                },
-                                basedpyright = {
-                                    analysis = {
-                                        typeCheckingMode = "basic",
-                                        diagnosticMode = "workspace",
-                                        autoSearchPaths = true,
-                                        autoImportCompletions = true,
-                                        inlayHints = {
-                                            variableTypes = true,
-                                            callArgumentNames = true,
-                                            functionReturnTypes = true,
-                                            genericTypes = true,
-                                        },
-                                        diagnosticSeverityOverrides = {
-                                            ["reportUnusedExpression"] = "none",
-                                        },
-                                    },
-                                },
-                            }
-                        })
-                        -- vim.print(lspconfig.basedpyright.)
-                    end,
-                    ["texlab"] = function()
-                        lspconfig.texlab.setup({
-                            capabilities = capabilities,
-                            on_attach = on_attach,
-                            settings = {
-                                texlab = {
-                                    bibtexFormatter = "texlab",
-                                    build = {
-                                        -- args = { "-pdflua", "-pvc", "-bibtex", "-auxdir=./AUX", "-interaction=nonstopmode", "-synctex=1", "%f" },
-                                        args = {
-                                            "-pdflua",
-                                            "-pvc",
-                                            "-bibtex",
-                                            "-auxdir=./AUX",
-                                            "-interaction=nonstopmode",
-                                            "%f",
-                                        },
-                                        executable = "latexmk",
-                                        auxDirectory = "./AUX",
-                                        logDirectory = "./AUX",
-                                        forwardSearchAfter = false,
-                                        onSave = false,
-                                    },
-                                    chktex = {
-                                        onEdit = false,
-                                        onOpenAndSave = false,
-                                    },
-                                    diagnosticsDelay = 200,
-                                    formatterLineLength = 80,
-                                    forwardSearch = {
-                                        args = {},
-                                    },
-                                    latexFormatter = "latexindent",
-                                    latexindent = {
-                                        modifyLineBreaks = false,
-                                    },
-                                },
-                            },
-                        })
-                    end,
-                    ["ltex"] = function()
-                        lspconfig.ltex.setup({
-                            capabilities = capabilities,
-                            on_attach = function(client, bufnr)
-                                on_attach(client, bufnr)
-                                require("ltex_extra").setup({
-                                    load_langs = { "en-GB", "de-DE" },
-                                    init_check = true,
-                                    path = vim.fn.expand("~") .. "/.local/share/ltex",
-                                })
-                            end,
-                            settings = {
-                                ltex = {
-                                    language = "en-GB",
-                                },
-                            },
-                            autostart = false,
-                        })
-                    end,
-                },
+                exclude = { "ltex" },
             })
 
-            local signs = {
-                {
-                    name = "DiagnosticSignError",
-                    text = "",
+            vim.diagnostic.config({
+                signs = {
+                    text = {
+                        [vim.diagnostic.severity.WARN] = "",
+                        [vim.diagnostic.severity.INFO] = "",
+                        [vim.diagnostic.severity.HINT] = "󰌵",
+                        [vim.diagnostic.severity.ERROR] = "",
+                    }
                 },
-                {
-                    name = "DiagnosticSignWarn",
-                    text = "",
-                },
-                {
-                    name = "DiagnosticSignHint",
-                    text = "󰌵",
-                },
-                {
-                    name = "DiagnosticSignInfo",
-                    text = "",
-                },
-            }
+                severity_sort = true,
+            })
 
-
-            for _, sign in ipairs(signs) do
-                vim.fn.sign_define(sign.name, {
-                    texthl = sign.name,
-                    text = sign.text,
-                    numhl = "",
-                })
-            end
 
             local cmp_select = {
                 behavior = cmp.SelectBehavior.Select,
@@ -461,7 +279,7 @@ return {
     {
         "jay-babu/mason-null-ls.nvim",
         event = { "BufReadPre", "BufNewFile" },
-        dependencies = { "williamboman/mason.nvim", "nvimtools/none-ls.nvim", "ThePrimeagen/refactoring.nvim" },
+        dependencies = { "mason-org/mason.nvim", "nvimtools/none-ls.nvim", "ThePrimeagen/refactoring.nvim" },
         config = function()
             require("mason-null-ls").setup({
                 ensure_installed = { "isort", "black", "prettierd" },

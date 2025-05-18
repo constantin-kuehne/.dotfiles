@@ -1,0 +1,471 @@
+-- return {
+--     {
+--         "quarto-dev/quarto-nvim",
+--         ft = { "markdown", "quarto" },
+--         dependencies = {
+--             "jmbuhr/otter.nvim",
+--             "nvim-treesitter/nvim-treesitter",
+--         },
+--         config = function()
+--             local quarto = require("quarto")
+--             quarto.setup({
+--                 lspFeatures = {
+--                     -- NOTE: put whatever languages you want here:
+--                     languages = { "python", "julia" },
+--                     chunks = "all",
+--                     diagnostics = {
+--                         enabled = true,
+--                         triggers = { "BufWritePost" },
+--                     },
+--                     completion = {
+--                         enabled = true,
+--                     },
+--                 },
+--                 keymap = {
+--                     -- NOTE: setup your own keymaps:
+--                     hover = "H",
+--                     definition = "gd",
+--                     rename = "<leader>rn",
+--                     references = "gr",
+--                     format = "<leader>lf",
+--                 },
+--                 codeRunner = {
+--                     enabled = true,
+--                     default_method = "molten",
+--                 },
+--             })
+--             local runner = require("quarto.runner")
+--             vim.keymap.set("n", "<leader>rc", runner.run_cell, { desc = "run cell", silent = true })
+--             vim.keymap.set("n", "<leader>ra", runner.run_above, { desc = "run cell and above", silent = true })
+--             vim.keymap.set("n", "<leader>rA", runner.run_all, { desc = "run all cells", silent = true })
+--             vim.keymap.set("n", "<leader>rl", runner.run_line, { desc = "run line", silent = true })
+--             vim.keymap.set("v", "<leader>ra", runner.run_range, { desc = "run visual range", silent = true })
+--             vim.keymap.set("n", "<leader>RA", function()
+--                 runner.run_all(true)
+--             end, { desc = "run all cells of all languages", silent = true })
+--         end
+--
+--     },
+--     {
+--         "GCBallesteros/jupytext.nvim",
+--         config = function()
+--             require("jupytext").setup({
+--                 style = "markdown",
+--                 output_extension = "md",
+--                 force_ft = "markdown",
+--             })
+--         end
+--     },
+--     {
+--         "benlubas/molten-nvim",
+--         dpendencies = {
+--             "3rd/image.nvim",
+--             "quarto-dev/quarto-nvim",
+--             "GCBallesteros/jupytext.nvim"
+--         },
+--         config = function()
+--             vim.g.molten_auto_open_output = false
+--             vim.g.molten_image_provider = "image.nvim"
+--             vim.g.molten_wrap_output = true
+--             vim.g.molten_virt_text_output = true
+--             vim.g.molten_virt_lines_off_by_1 = true
+--
+--             vim.keymap.set("n", "<leader>je", ":MoltenEvaluateOperator<CR>",
+--                 { desc = "evaluate operator", silent = true })
+--             vim.keymap.set("n", "<leader>jo", ":noautocmd MoltenEnterOutput<CR>",
+--                 { desc = "open output window", silent = true })
+--
+--             vim.keymap.set("n", "<leader>jc", ":MoltenReevaluateCell<CR>", { desc = "re-eval cell", silent = true })
+--             vim.keymap.set("v", "<leader>jr", ":<C-u>MoltenEvaluateVisual<CR>gv",
+--                 { desc = "execute visual selection", silent = true })
+--             vim.keymap.set("n", "<leader>jh", ":MoltenHideOutput<CR>", { desc = "close output window", silent = true })
+--             vim.keymap.set("n", "<leader>jd", ":MoltenDelete<CR>", { desc = "delete Molten cell", silent = true })
+--
+--             -- if you work with html outputs:
+--             vim.keymap.set("n", "<leader>jx", ":MoltenOpenInBrowser<CR>",
+--                 { desc = "open output in browser", silent = true })
+--
+--             -- automatically import output chunks from a jupyter notebook
+--             -- tries to find a kernel that matches the kernel in the jupyter notebook
+--             -- falls back to a kernel that matches the name of the active venv (if any)
+--             local imb = function(e) -- init molten buffer
+--                 vim.schedule(function()
+--                     local kernels = vim.fn.MoltenAvailableKernels()
+--                     local try_kernel_name = function()
+--                         local metadata = vim.json.decode(io.open(e.file, "r"):read("a"))["metadata"]
+--                         return metadata.kernelspec.name
+--                     end
+--                     local ok, kernel_name = pcall(try_kernel_name)
+--                     if not ok or not vim.tbl_contains(kernels, kernel_name) then
+--                         kernel_name = nil
+--                         local venv = os.getenv("VIRTUAL_ENV") or os.getenv("CONDA_PREFIX")
+--                         if venv ~= nil then
+--                             kernel_name = string.match(venv, "/.+/(.+)")
+--                         end
+--                     end
+--                     if kernel_name ~= nil and vim.tbl_contains(kernels, kernel_name) then
+--                         vim.cmd(("MoltenInit %s"):format(kernel_name))
+--                     end
+--                     vim.cmd("MoltenImportOutput")
+--                 end)
+--             end
+--
+--             -- automatically import output chunks from a jupyter notebook
+--             vim.api.nvim_create_autocmd("BufAdd", {
+--                 pattern = { "*.ipynb" },
+--                 callback = imb,
+--             })
+--
+--             -- we have to do this as well so that we catch files opened like nvim ./hi.ipynb
+--             vim.api.nvim_create_autocmd("BufEnter", {
+--                 pattern = { "*.ipynb" },
+--                 callback = function(e)
+--                     if vim.api.nvim_get_vvar("vim_did_enter") ~= 1 then
+--                         imb(e)
+--                     end
+--                 end,
+--             })
+--
+--             -- automatically export output chunks to a jupyter notebook on write
+--             vim.api.nvim_create_autocmd("BufWritePost", {
+--                 pattern = { "*.ipynb" },
+--                 callback = function()
+--                     if require("molten.status").initialized() == "Molten" then
+--                         vim.cmd("MoltenExportOutput!")
+--                     end
+--                 end,
+--             })
+--
+--             -- change the configuration when editing a python file
+--             vim.api.nvim_create_autocmd("BufEnter", {
+--                 pattern = "*.py",
+--                 callback = function(e)
+--                     if string.match(e.file, ".otter.") then
+--                         return
+--                     end
+--                     if require("molten.status").initialized() == "Molten" then -- this is kinda a hack...
+--                         vim.fn.MoltenUpdateOption("virt_lines_off_by_1", false)
+--                         vim.fn.MoltenUpdateOption("virt_text_output", false)
+--                     else
+--                         vim.g.molten_virt_lines_off_by_1 = false
+--                         vim.g.molten_virt_text_output = false
+--                     end
+--                 end,
+--             })
+--
+--             -- Undo those config changes when we go back to a markdown or quarto file
+--             vim.api.nvim_create_autocmd("BufEnter", {
+--                 pattern = { "*.qmd", "*.md", "*.ipynb" },
+--                 callback = function(e)
+--                     if string.match(e.file, ".otter.") then
+--                         return
+--                     end
+--                     if require("molten.status").initialized() == "Molten" then
+--                         vim.fn.MoltenUpdateOption("virt_lines_off_by_1", true)
+--                         vim.fn.MoltenUpdateOption("virt_text_output", true)
+--                     else
+--                         vim.g.molten_virt_lines_off_by_1 = true
+--                         vim.g.molten_virt_text_output = true
+--                     end
+--                 end,
+--             })
+--
+--             -- Provide a command to create a blank new Python notebook
+--             -- note: the metadata is needed for Jupytext to understand how to parse the notebook.
+--             -- if you use another language than Python, you should change it in the template.
+--             local default_notebook = [[
+--   {
+--     "cells": [
+--      {
+--       "cell_type": "markdown",
+--       "metadata": {},
+--       "source": [
+--         ""
+--       ]
+--      }
+--     ],
+--     "metadata": {
+--      "kernelspec": {
+--       "display_name": "Python 3",
+--       "language": "python",
+--       "name": "python3"
+--      },
+--      "language_info": {
+--       "codemirror_mode": {
+--         "name": "ipython"
+--       },
+--       "file_extension": ".py",
+--       "mimetype": "text/x-python",
+--       "name": "python",
+--       "nbconvert_exporter": "python",
+--       "pygments_lexer": "ipython3"
+--      }
+--     },
+--     "nbformat": 4,
+--     "nbformat_minor": 5
+--   }
+-- ]]
+--
+--             local function new_notebook(filename)
+--                 local path = filename .. ".ipynb"
+--                 local file = io.open(path, "w")
+--                 if file then
+--                     file:write(default_notebook)
+--                     file:close()
+--                     vim.cmd("edit " .. path)
+--                 else
+--                     print("Error: Could not open new notebook file for writing.")
+--                 end
+--             end
+--
+--             vim.api.nvim_create_user_command('NewNotebook', function(opts)
+--                 new_notebook(opts.args)
+--             end, {
+--                 nargs = 1,
+--                 complete = 'file'
+--             })
+--         end,
+--     }
+-- }
+--
+
+-- return {
+--     {
+--         "molten-nvim",
+--         dir = "~/Documents/Coding/molten-nvim-2",
+--         build = ":UpdateRemotePlugins",
+--     }
+-- }
+
+return {
+    {
+        "geg2102/nvim-jupyter-client",
+        -- "nvim-jupyter-client",
+        -- dir = "~/Documents/Coding/nvim-jupyter-client",
+        enabled = false,
+        config = function()
+            local jupyter = require("nvim-jupyter-client")
+            jupyter.setup({
+                cell_highlight_group = "CellTitleText",
+                highlights = {
+                    cell_title = {
+                        fg = "#0db9d7",
+                        bg = "#16161e",
+                    }
+                }
+            })
+        end
+    },
+    -- {
+    --     "benlubas/molten-nvim",
+    --     -- "molten-nvim",
+    --     -- dir = "~/Documents/Coding/molten-nvim-2",
+    --     build = ":UpdateRemotePlugins",
+    --     enabled = false,
+    --     dependencies = {
+    --         {
+    --             -- "nvim-jupyter-client",
+    --             -- dir = "~/Documents/Coding/nvim-jupyter-client"
+    --             "geg2102/nvim-jupyter-client",
+    --         }
+    --         , "3rd/image.nvim"
+    --     },
+    --     init = function()
+    --         vim.g.molten_virt_text_output = true
+    --         vim.g.molten_auto_open_output = false
+    --         vim.g.molten_image_provider = "image.nvim"
+    --     end,
+    --     config = function()
+    --         local buffer_ops = require("nvim-jupyter-client.objects.notebook.buffer_operations")
+
+    --         local imb = function(e) -- init molten buffer
+    --             vim.schedule(function()
+    --                 local kernels = vim.fn.MoltenAvailableKernels()
+    --                 local try_kernel_name = function()
+    --                     local metadata = vim.json.decode(io.open(e.file, "r"):read("a"))["metadata"]
+    --                     return metadata.kernelspec.name
+    --                 end
+    --                 local ok, kernel_name = pcall(try_kernel_name)
+    --                 if not ok or not vim.tbl_contains(kernels, kernel_name) then
+    --                     kernel_name = nil
+    --                     local venv = os.getenv("VIRTUAL_ENV") or os.getenv("CONDA_PREFIX")
+    --                     if venv ~= nil then
+    --                         kernel_name = string.match(venv, "/.+/(.+)")
+    --                     end
+    --                 end
+    --                 if kernel_name ~= nil and vim.tbl_contains(kernels, kernel_name) then
+    --                     vim.cmd(("MoltenInit %s"):format(kernel_name))
+    --                 end
+    --                 -- vim.cmd("MoltenImportOutput")
+    --             end)
+    --         end
+
+    --         local jupyter_group = vim.api.nvim_create_augroup("juptyer-notebooks", { clear = false })
+
+    --         -- Get_Extmarks = function()
+    --         --     vim.print(vim.inspect(require("nvim-jupyter-client.objects.notebook.buffer_operations").reset_extmarks(
+    --         --         vim.api.nvim_get_current_buf())))
+    --         -- end
+
+    --         -- Get_Molten_Extmarks = function()
+    --         --     local ns_id = vim.api.nvim_create_namespace("molten-extmarks")
+    --         --     local extmarks = vim.api.nvim_buf_get_extmarks(0, ns_id, 0, -1, {})
+    --         --     vim.print(vim.inspect(extmarks))
+    --         -- end
+
+    --         vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
+    --             group = jupyter_group,
+    --             pattern = { "*.ipynb" },
+    --             callback = function(e)
+    --                 imb(e)
+    --                 local jupyter = require("nvim-jupyter-client")
+
+    --                 -- Add cells
+    --                 vim.api.nvim_create_user_command("JupyterAddCellBelow", function()
+    --                     local cell = jupyter.get_notebook():add_cell_below()
+
+    --                     local start_line = buffer_ops.get_lineno_of_id(cell.id) + 1
+    --                     local end_line = start_line + #cell.source
+
+    --                     -- vim.cmd("MoltenImportOutput")
+    --                     vim.fn.MoltenDefineCell(start_line, end_line + 1)
+    --                 end, { nargs = 0 })
+
+    --                 vim.keymap.set("n", "<leader>ja", function()
+    --                     vim.cmd("JupyterAddCellBelow")
+    --                 end, { desc = "Add Jupyter cell below" })
+
+    --                 vim.keymap.set("n", "<leader>jA", function()
+    --                     jupyter.get_notebook():add_cell_above()
+    --                 end, { desc = "Add Jupyter cell above" })
+
+    --                 -- Cell operations
+    --                 vim.keymap.set("n", "<leader>jd", function()
+    --                     jupyter.get_notebook():remove_cell()
+    --                 end, { desc = "Remove current Jupyter cell" })
+
+    --                 vim.keymap.set("n", "<leader>jm", function()
+    --                     jupyter.get_notebook():merge_above()
+    --                 end, { desc = "Merge with cell above" })
+
+    --                 vim.keymap.set("n", "<leader>jM", function()
+    --                     jupyter.get_notebook():merge_below()
+    --                 end, { desc = "Merge with cell below" })
+    --                 vim.keymap.set("n", "<leader>jt", function()
+    --                     jupyter.get_notebook():convert_type()
+    --                 end, { desc = "Convert cell type (code/markdown)" })
+    --             end
+    --         })
+
+    --         vim.api.nvim_create_autocmd("BufWritePre", {
+    --             pattern = "*.ipynb",
+    --             callback = function()
+    --                 local output = vim.fn.MoltenGetOutput()
+    --                 vim.print(vim.inspect(output))
+    --             end
+    --         })
+    --     end
+    -- },
+}
+--
+-- return {
+--     "meatballs/notebook.nvim",
+--     dependencies = {
+--         {
+--             "benlubas/molten-nvim",
+--             build = ":UpdateRemotePlugins",
+--         }
+--     },
+--     opts = {
+--         insert_blank_line = true,
+--
+--         -- Whether to display the index number of a cell
+--         show_index = true,
+--
+--         -- Whether to display the type of a cell
+--         show_cell_type = true,
+--
+--         -- Style for the virtual text at the top of a cell
+--         virtual_text_style = { fg = "lightblue", italic = false },
+--
+--     },
+--     config = function(_, opts)
+--         require("notebook").setup(opts)
+--         local api = require("notebook.api")
+--         local settings = require("notebook.settings")
+--
+--         function _G.define_cell(extmark)
+--             if extmark == nil then
+--                 local line = vim.fn.line(".")
+--                 extmark, _ = api.current_extmark(line)
+--             end
+--             local start_line = extmark[1] + 1
+--             local end_line = extmark[3].end_row
+--             pcall(function() vim.fn.MoltenDefineCell(start_line, end_line) end)
+--         end
+--
+--         function _G.define_all_cells()
+--             local buffer = vim.api.nvim_get_current_buf()
+--             local extmarks = settings.extmarks[buffer]
+--             for id, cell in pairs(extmarks) do
+--                 local extmark = vim.api.nvim_buf_get_extmark_by_id(
+--                     0, settings.plugin_namespace, id, { details = true }
+--                 )
+--                 if cell.cell_type == "code" or cell.cell_type == "markdown" then
+--                     define_cell(extmark)
+--                 end
+--             end
+--         end
+--
+--         local imb = function(e) -- init molten buffer
+--             vim.schedule(function()
+--                 local kernels = vim.fn.MoltenAvailableKernels()
+--                 local try_kernel_name = function()
+--                     local metadata = vim.json.decode(io.open(e.file, "r"):read("a"))["metadata"]
+--                     return metadata.kernelspec.name
+--                 end
+--                 local ok, kernel_name = pcall(try_kernel_name)
+--                 if not ok or not vim.tbl_contains(kernels, kernel_name) then
+--                     kernel_name = nil
+--                     local venv = os.getenv("VIRTUAL_ENV") or os.getenv("CONDA_PREFIX")
+--                     if venv ~= nil then
+--                         kernel_name = string.match(venv, "/.+/(.+)")
+--                     end
+--                 end
+--                 if kernel_name ~= nil and vim.tbl_contains(kernels, kernel_name) then
+--                     vim.cmd(("MoltenInit %s"):format(kernel_name))
+--                 end
+--             end)
+--         end
+--         vim.api.nvim_create_autocmd(
+--             { "BufRead", },
+--             {
+--                 pattern = { "*.ipynb" },
+--                 callback = function(e)
+--                     imb(e)
+--                 end
+--             }
+--         )
+--         vim.api.nvim_create_autocmd(
+--             "User",
+--             { pattern = { "MoltenInitPost", "NBPostRender" }, callback = _G.define_all_cells }
+--         )
+--     end
+-- }
+
+-- return {
+--     "benlubas/molten-nvim",
+--     build = ":UpdateRemotePlugins",
+--     dependencies = {
+--         "3rd/image.nvim",
+--         { "GCBallesteros/jupytext.nvim", config = true }
+--     },
+--     config = function()
+--         vim.g.molten_auto_open_output = false
+--         vim.g.molten_image_provider = "image.nvim"
+--         vim.g.molten_wrap_output = true
+--         vim.g.molten_virt_text_output = true
+--         vim.g.molten_virt_lines_off_by_1 = false
+--     end
+--
+-- }

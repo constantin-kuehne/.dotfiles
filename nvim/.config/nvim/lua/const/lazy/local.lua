@@ -11,6 +11,7 @@ local local_plugins = {
             vim.keymap.set("n", "<leader>is", ipython.send_cell, { silent = true })
             vim.keymap.set("n", "<leader>in", ipython.save_ipynb, { silent = true })
             vim.keymap.set("n", "<leader>ie", ipython.save_state, { silent = true })
+            vim.keymap.set("n", "<leader>ia", ipython.send_all, { silent = true })
         end
     },
     -- {
