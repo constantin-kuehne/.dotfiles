@@ -80,13 +80,28 @@ return {
 
                     return not is_obsidian_vault()
                 end,
-
                 opts = {
                     file_types = { "markdown", "Avante" },
                     code = {
                         style = "full",
                         border = "thin"
-                    }
+                    },
+                    ignore = function(bufnr)
+                        local function is_buf_in_floating_win(bufnr)
+                            for _, win in ipairs(vim.api.nvim_list_wins()) do
+                                if vim.api.nvim_win_get_buf(win) == bufnr then
+                                    local config = vim.api.nvim_win_get_config(win)
+                                    local is_correct_ft = vim.bo[bufnr].filetype == "markdown"
+                                    if config.relative == "win" and is_correct_ft then
+                                        return true
+                                    end
+                                end
+                            end
+                            return false
+                        end
+                        return is_buf_in_floating_win(bufnr)
+                    end
+
                 },
                 ft = { "markdown", "Avante" },
             },

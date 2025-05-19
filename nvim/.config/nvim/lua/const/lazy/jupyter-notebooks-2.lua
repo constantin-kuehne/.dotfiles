@@ -24,7 +24,6 @@ return {
             vim.g.molten_use_border_highlights = false
 
             vim.g.molten_output_virt_lines = true
-
             vim.g.molten_cover_empty_lines = true
 
             -- Output as virtual text. Allows outputs to always be shown, works with images, but can
@@ -218,7 +217,21 @@ return {
                 },
             })
             require("quarto").activate()
-            require("otter").activate()
+
+            vim.api.nvim_create_autocmd({ "BufWinEnter", "WinEnter" }, {
+                pattern = { "*.qmd", "*.md", "*.rmd" },
+                callback = function(args)
+                    local win = vim.api.nvim_get_current_win()
+                    local config = vim.api.nvim_win_get_config(win)
+                    local is_floating = config.relative == "win"
+
+                    local is_correct_ft = vim.list_contains({ "markdown", "quarto", "rmd", }, vim.bo[args.buf].filetype)
+
+                    if not is_floating and is_correct_ft then
+                        require("otter").activate()
+                    end
+                end,
+            })
         end
     },
     {
