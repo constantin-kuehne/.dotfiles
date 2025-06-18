@@ -84,7 +84,17 @@ autocmd("LspAttach", {
         vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
         -- vim.keymap.set("n", "gt", vim.lsp.buf.type_defintion, opts)
         vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
-        vim.keymap.set("n", "<leader>lf", vim.lsp.buf.format, opts)
+        vim.keymap.set({ "n", "v" }, "<leader>lf", function()
+            local ext = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":e")
+
+            if ext == "ipynb" then
+                require("conform").format({
+                    lsp_fallback = true,
+                })
+            else
+                vim.lsp.buf.format()
+            end
+        end, opts)
         vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
         vim.keymap.set("n", "<leader>rr", vim.lsp.buf.references, opts)
         vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)

@@ -4,11 +4,11 @@ return {
         vim.keymap.set("n", "<leader>gs", vim.cmd.Git)
         vim.keymap.set("n", "<leader>gc", "<CMD>Git commit<CR>")
 
-        local ThePrimeagen_Fugitive = vim.api.nvim_create_augroup("Const_Fugitive", {})
+        local Const_Fugitive = vim.api.nvim_create_augroup("Const_Fugitive", {})
 
         local autocmd = vim.api.nvim_create_autocmd
         autocmd("BufWinEnter", {
-            group = ThePrimeagen_Fugitive,
+            group = Const_Fugitive,
             pattern = "*",
             callback = function()
                 if vim.bo.ft ~= "fugitive" then
@@ -35,7 +35,7 @@ return {
             end
         })
 
-        vim.keymap.set("n", "gu", "<cmd>diffget //2<CR>")
+        vim.keymap.set("n", "gl", "<cmd>diffget //2<CR>")
         vim.keymap.set("n", "gh", "<cmd>diffget //3<CR>")
     end
 }

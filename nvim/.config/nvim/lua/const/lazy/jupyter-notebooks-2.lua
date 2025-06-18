@@ -1,3 +1,12 @@
+vim.api.nvim_create_autocmd("BufAdd", {
+    pattern = { "*.ipynb" },
+    callback = function()
+        if vim.fn.has("python3") == 0 then
+            vim.notify("Opening ipynb without python3", vim.log.levels.ERROR)
+        end
+    end,
+})
+
 return {
     {
         "benlubas/molten-nvim",
@@ -13,7 +22,7 @@ return {
 
             -- this guide will be using image.nvim
             -- Don't forget to setup and install the plugin if you want to view image outputs
-            vim.g.molten_image_provider = "image.nvim"
+            vim.g.molten_image_provider = "snacks.nvim"
 
             -- optional, I like wrapping. works for virt text and the output window
             vim.g.molten_wrap_output = true
@@ -291,15 +300,72 @@ return {
                 end
             end
 
+            local function get_previous_cell_end()
+                local ts = vim.treesitter
+
+                local bufnr = vim.api.nvim_get_current_buf()
+                local lang = "markdown"
+
+                local parser = ts.get_parser(bufnr, lang)
+                local tree = parser:parse()[1]
+                local root = tree:root()
+
+                local q = ts.query.get(lang, "textobjects")
+
+                local cursor_row = vim.api.nvim_win_get_cursor(vim.api.nvim_get_current_win())[1]
+
+                local closest = nil
+
+                for id, node, metadata, match in q:iter_captures(root, bufnr, 0, cursor_row) do
+                    if q.captures[id] == "code_cell.outer" then
+                        local start_row, start_col, end_row, end_col = node:range()
+                        if cursor_row >= start_row and cursor_row <= end_row then
+                            return end_row
+                        end
+                        if closest == nil or end_row > closest then
+                            closest = end_row
+                        end
+                    end
+                end
+
+                return closest
+            end
+
+            local function new_cell()
+                local bufnr = vim.api.nvim_get_current_buf()
+                local winnr = vim.api.nvim_get_current_win()
+
+                local prev_cell_end = get_previous_cell_end()
+                local row_insert = nil
+
+                if prev_cell_end == nil then
+                    row_insert, _ = unpack(vim.api.nvim_win_get_cursor(winnr))
+                else
+                    row_insert = prev_cell_end + 1
+                end
+
+                local lines_to_insert = {
+                    "```python",
+                    "",
+                    "```",
+                    ""
+                }
+                vim.api.nvim_buf_set_lines(bufnr, row_insert, row_insert, false, lines_to_insert)
+                vim.api.nvim_win_set_cursor(0, { row_insert + 2, 0 })
+            end
+
             local runner = require('quarto.runner')
 
             local hydra = require("hydra")
+
             hydra({
                 name = "QuartoNavigator",
                 hint = [[
-      _j_/_k_: move down/up         _r_: run cell   _A_: run all cells  _a_: run above
-      _o_/_h_: open/close output    _l_: run line   _x_: open browser   _d_: delete cell
-      ^^                             _<esc>_/_q_: exit ]],
+                            _j_/_k_: move down/up
+_r_: run cell               _A_: run all cells      _a_/_b_: run above/below
+_l_: run line               _x_: open browser       _d_: delete cell
+_o_/_h_: toggle output        _t_: toggle virt text   _n_: new cell
+                            _<esc>_/_q_: exit ]],
                 config = {
                     color = "pink",
                     invoke_on_body = true,
@@ -309,17 +375,23 @@ return {
                 heads = {
                     { "j", keys("]b") },
                     { "k", keys("[b") },
-                    { "r", runner.run_cell, { desc = "run cell" } },
+                    { "r", function()
+                        runner.run_cell(false)
+                    end
+                    , { desc = "run cell" } },
                     { "A", function()
                         runner.run_all(true)
                     end
-                    , { desc = "run all cells" } },
+                    , { desc = "run all cells", silent = true } },
                     { "l",     runner.run_line,                    { desc = "run line" } },
                     { "a",     runner.run_above,                   { desc = "run cell and above" } },
-                    { "o",     ":noautocmd MoltenEnterOutput<CR>", { desc = "open output window", silent = true } },
-                    { "h",     ":MoltenHideOutput<CR>",            { desc = "close output window", silent = true } },
+                    { "b",     runner.run_below,                   { desc = "run cell and below" } },
+                    { "o",     ":noautocmd MoltenEnterOutput<CR>", { desc = "open output window", silent = true, exit = true } },
+                    { "h",     ":MoltenHideOutput<CR>",            { desc = "close output window", silent = true, exit = true } },
                     { "x",     ":MoltenOpenInBrowser<CR>",         { desc = "open output in browser" } },
                     { "d",     ":MoltenDelete<CR>",                { desc = "delete Molten cell" } },
+                    { "t",     ":MoltenToggleVirtual<CR>",         { desc = "toggle virt text", silent = true } },
+                    { "n",     new_cell,                           { desc = "create new cell", exit = true } },
                     { "<esc>", nil,                                { exit = true } },
                     { "q",     nil,                                { exit = true } },
                 },

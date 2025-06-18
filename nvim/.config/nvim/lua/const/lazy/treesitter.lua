@@ -1,10 +1,13 @@
 return {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
-    dependencies = { "nvim-treesitter/playground", "romgrk/nvim-treesitter-context", "nvim-treesitter/nvim-treesitter-textobjects" },
+    dependencies = { "nvim-treesitter/playground", "nvim-treesitter/nvim-treesitter-context", "nvim-treesitter/nvim-treesitter-textobjects" },
     config = function()
         require('nvim-treesitter.configs').setup({
             ensure_installed = { "python", "lua" },
+            auto_install = true,
+            ignore_install = {},
+            modules = {},
             sync_install = false,
             indent = {
                 enable = true
@@ -17,14 +20,18 @@ return {
             textobjects = {
                 move = {
                     enable = true,
-                    set_jumps = false, -- you can change this if you want.
+                    set_jumps = true, -- you can change this if you want.
                     goto_next_start = {
-                        --- ... other keymaps
                         ["]b"] = { query = "@code_cell.inner", desc = "next code block" },
                     },
+                    goto_next_end = {
+                        ["]B"] = { query = "@code_cell.outer", desc = "next code block" },
+                    },
                     goto_previous_start = {
-                        --- ... other keymaps
                         ["[b"] = { query = "@code_cell.inner", desc = "previous code block" },
+                    },
+                    goto_previous_end = {
+                        ["[B"] = { query = "@code_cell.outer", desc = "previous code block" },
                     },
                 },
                 select = {
@@ -49,6 +56,9 @@ return {
                     },
                 },
             }
+        })
+        require("treesitter-context").setup({
+            enable = true,
         })
     end
 

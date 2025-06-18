@@ -95,12 +95,6 @@ return {
                 autostart = false,
                 capabilities = capabilities,
                 on_attach = function(client, bufnr)
-                    local function on_attach(client, bufnr)
-                        if client.server_capabilities.inlayHintProvider then
-                            vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-                        end
-                    end
-
                     on_attach(client, bufnr)
 
                     require("ltex_extra").setup({
@@ -424,27 +418,4 @@ return {
         end,
 
     },
-    {
-        "jay-babu/mason-null-ls.nvim",
-        event = { "BufReadPre", "BufNewFile" },
-        dependencies = { "mason-org/mason.nvim", "nvimtools/none-ls.nvim", "ThePrimeagen/refactoring.nvim" },
-        config = function()
-            require("mason-null-ls").setup({
-                ensure_installed = { "isort", "black", "prettierd" },
-                automatic_installation = false,
-                handlers = {},
-            })
-
-            vim.keymap.set("n", "<leader>lf", vim.lsp.buf.format, {
-                buffer = 0,
-            })
-
-            local null_ls = require("null-ls")
-            null_ls.setup({
-                sources = {
-                    null_ls.builtins.code_actions.refactoring
-                }
-            })
-        end,
-    }
 }

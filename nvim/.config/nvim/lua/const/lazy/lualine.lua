@@ -14,6 +14,11 @@ return {
         require("lualine").setup({
             options = {
                 theme = "auto"
+            },
+            sections = {
+                lualine_x = {
+                    require("lualine.components.ai-status")
+                }
             }
         })
     end
