@@ -99,3 +99,16 @@ export PYTHONPATH="$HOME/.matplotlib/matplotlib-backend-kitty/:$PYTHONPATH"
 
 export FLINK_HOME="$HOME/flink-1.20.0/"
 export PATH="$FLINK_HOME/bin:$PATH"
+
+tmux_conda_precmd() {
+  if [[ -n "$TMUX" ]]; then
+    tmux setenv conda_env "$CONDA_PREFIX"
+  fi
+}
+
+
+precmd_functions+=(tmux_conda_precmd)
+
+if [[ -n "$conda_env" ]]; then
+    conda activate "$conda_env"
+fi
