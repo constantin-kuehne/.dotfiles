@@ -43,12 +43,21 @@ return {
             "MeanderingProgrammer/render-markdown.nvim",
         },
         opts = {
+            adapters = {
+                gemini = function()
+                    return require("codecompanion.adapters").extend("gemini", {
+                        env = {
+                            api_key = "cmd:pass show gemini-api"
+                        }
+                    })
+                end
+            },
             strategies = {
                 chat = {
-                    adapter = "copilot",
+                    adapter = "gemini",
                 },
                 inline = {
-                    adapter = "copilot",
+                    adapter = "gemini",
                     keymaps = {
                         accept_change = {
                             modes = { n = "ga" },
