@@ -97,7 +97,18 @@ return {
         enabled = true,
         config = function()
             require("copilot").setup({
-                suggestion = { enabled = true, auto_trigger = true },
+                suggestion = {
+                    enabled = true,
+                    auto_trigger = true,
+                    keymap = {
+                        accept = "<M-l>",
+                        accept_word = false,
+                        accept_line = false,
+                        next = "<M-j>",
+                        prev = "<M-k>",
+                        dismiss = "<M-d>",
+                    }
+                },
                 panel = { enabled = true, auto_refresh = true, layout = { position = "right", ratio = 0.3 } },
                 server_opts_overrides = {
                     settings = {

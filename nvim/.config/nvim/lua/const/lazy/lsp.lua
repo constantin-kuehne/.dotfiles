@@ -17,6 +17,7 @@ return {
             "mason-org/mason.nvim",
             "mason-org/mason-lspconfig.nvim",
             "rafamadriz/friendly-snippets",
+            "zbirenbaum/copilot.lua",
             {
                 "saghen/blink.cmp",
                 enabled = false,
@@ -90,24 +91,83 @@ return {
                 on_attach = on_attach,
             })
 
-            local lspconfig = require("lspconfig")
-            lspconfig.ltex.setup({
-                autostart = false,
-                capabilities = capabilities,
-                on_attach = function(client, bufnr)
-                    on_attach(client, bufnr)
 
-                    require("ltex_extra").setup({
-                        load_langs = { "en-GB", "de-DE" },
-                        init_check = true,
-                        path = vim.fn.expand("~") .. "/.local/share/ltex",
+            local ltex_languages = { "en-US", "en-GB", "de-DE" }
+
+            local function patch_ltex_language(clients, lang)
+                for _, client in ipairs(clients) do
+                    client.config.settings.ltex = client.config.settings.ltex or {}
+                    client.config.settings.ltex.language = lang
+
+                    client.notify("workspace/didChangeConfiguration", {
+                        settings = client.config.settings,
                     })
-                end,
-                settings = {
-                    ltex = {
-                        language = "en-GB",
+                end
+            end
+
+            local function start_ltex_language(lang)
+                vim.lsp.start({
+                    name = "ltex",
+                    cmd = { "ltex-ls" },
+                    autostart = false,
+                    capabilities = capabilities,
+                    on_attach = function(client, bufnr)
+                        on_attach(client, bufnr)
+
+                        require("ltex_extra").setup({
+                            load_langs = ltex_languages,
+                            init_check = true,
+                            path = vim.fn.expand("~") .. "/.local/share/ltex",
+                        })
+                    end,
+                    settings = {
+                        ltex = {
+                            language = lang or "en-US",
+                        },
                     },
-                },
+                })
+            end
+
+            vim.api.nvim_create_user_command("Ltex", function(cmd)
+                local clients = vim.lsp.get_clients({ name = "ltex" })
+                if #clients == 0 then
+                    start_ltex_language(cmd.fargs[1])
+                else
+                    patch_ltex_language(clients, cmd.fargs[1])
+                end
+            end, {
+                nargs = "?",
+                complete = function(_, line)
+                    local l = vim.split(line, "%s")
+                    return vim.tbl_filter(function(val)
+                        return vim.startswith(val, l[#l])
+                    end, ltex_languages)
+                end
+            })
+
+            vim.api.nvim_create_user_command("LtexStart", function(opts)
+                start_ltex_language(opts.fargs[1])
+            end, {
+                nargs = "?",
+                complete = function(_, line)
+                    local l = vim.split(line, "%s")
+                    return vim.tbl_filter(function(val)
+                        return vim.startswith(val, l[#l])
+                    end, ltex_languages)
+                end
+            })
+
+            vim.api.nvim_create_user_command("LtexLang", function(cmd)
+                local clients = vim.lsp.get_clients({ name = "ltex" })
+                patch_ltex_language(clients, cmd.fargs[1])
+            end, {
+                nargs = 1,
+                complete = function(_, line)
+                    local l = vim.split(line, "%s")
+                    return vim.tbl_filter(function(val)
+                        return vim.startswith(val, l[#l])
+                    end, ltex_languages)
+                end
             })
 
             vim.lsp.config["basedpyright"] = {
@@ -205,7 +265,7 @@ return {
                     return capabilities
                 end)(),
                 on_attach = function(client, bufnr)
-                    vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
+                    vim.api.nvim_set_option_value("omnifunc", "v:lua.vim.lsp.omnifunc", { buf = bufnr })
                 end,
                 on_new_config = function(new_config, _)
                     local julia = vim.fn.expand("~/.julia/environments/nvim-lspconfig/bin/julia")
@@ -233,7 +293,6 @@ return {
                     },
                 }
             }
-
 
             -- local capabilities = require('blink.cmp').get_lsp_capabilities()
 
@@ -311,7 +370,10 @@ return {
                 mapping = {
                     ["<C-u>"] = cmp.mapping.scroll_docs(-4),
                     ["<C-d>"] = cmp.mapping.scroll_docs(4),
-                    ["<C-Space>"] = cmp.mapping.complete(),
+                    ["<C-Space>"] = (function()
+                        require("copilot.suggestion").toggle_auto_trigger()
+                        return cmp.mapping.complete()
+                    end)(),
                     ["<C-e>"] = cmp.mapping({
                         i = cmp.mapping.abort(),
                         c = cmp.mapping.close(),
@@ -414,6 +476,7 @@ return {
 
             vim.keymap.set("n", "<leader>lf", vim.lsp.buf.format, {
                 buffer = 0,
+                desc = "Format current buffer",
             })
         end,
 

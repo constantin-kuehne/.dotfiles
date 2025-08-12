@@ -80,10 +80,16 @@ autocmd("LspAttach", {
         local opts = {
             buffer = e.buf
         }
-        vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-        vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+        vim.keymap.set("n", "K", vim.lsp.buf.hover, vim.tbl_extend("error", opts, {
+            desc = "LSP Hover"
+        }))
+        vim.keymap.set("n", "gd", vim.lsp.buf.definition, vim.tbl_extend("error", opts, {
+            desc = "LSP Definition"
+        }))
         -- vim.keymap.set("n", "gt", vim.lsp.buf.type_defintion, opts)
-        vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
+        vim.keymap.set("n", "gi", vim.lsp.buf.implementation, vim.tbl_extend("error", opts, {
+            desc = "LSP Implementation"
+        }))
         vim.keymap.set({ "n", "v" }, "<leader>lf", function()
             local ext = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":e")
 
@@ -94,18 +100,44 @@ autocmd("LspAttach", {
             else
                 vim.lsp.buf.format()
             end
-        end, opts)
-        vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
-        vim.keymap.set("n", "<leader>rr", vim.lsp.buf.references, opts)
-        vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
-        vim.keymap.set("v", "<leader>ca", vim.lsp.buf.code_action, opts)
-        vim.keymap.set("n", "<leader>dj", vim.diagnostic.goto_next, opts)
-        vim.keymap.set("n", "<leader>dk", vim.diagnostic.goto_prev, opts)
-        vim.keymap.set("n", "<leader>dK", vim.diagnostic.open_float, opts)
-        vim.keymap.set("n", "<leader>fe", telescope_builtin.diagnostics, opts)
-        vim.keymap.set("n", "<leader>fi", telescope_builtin.lsp_implementations, opts)
-        vim.keymap.set("n", "<leader>fd", telescope_builtin.lsp_definitions, opts)
-        vim.keymap.set("n", "<leader>fr", telescope_builtin.lsp_references, opts)
-        vim.keymap.set("n", "<leader>ft", telescope_builtin.lsp_type_definitions, opts)
+        end, vim.tbl_extend("error", opts, {
+            desc = "LSP Format"
+        }))
+        vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, vim.tbl_extend("error", opts, {
+            desc = "LSP Rename"
+        }))
+        vim.keymap.set("n", "<leader>rr", vim.lsp.buf.references, vim.tbl_extend("error", opts, {
+            desc = "LSP References"
+        }))
+        vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, vim.tbl_extend("error", opts, {
+            desc = "LSP Code Action"
+        }))
+        vim.keymap.set("v", "<leader>ca", vim.lsp.buf.code_action, vim.tbl_extend("error", opts, {
+            desc = "LSP Code Action"
+        }))
+        vim.keymap.set("n", "<leader>dj", vim.diagnostic.goto_next, vim.tbl_extend("error", opts, {
+            desc = "LSP Next Diagnostic"
+        }))
+        vim.keymap.set("n", "<leader>dk", vim.diagnostic.goto_prev, vim.tbl_extend("error", opts, {
+            desc = "LSP Previous Diagnostic"
+        }))
+        vim.keymap.set("n", "<leader>dK", vim.diagnostic.open_float, vim.tbl_extend("error", opts, {
+            desc = "LSP Diagnostic Float"
+        }))
+        vim.keymap.set("n", "<leader>fe", telescope_builtin.diagnostics, vim.tbl_extend("error", opts, {
+            desc = "[Telescope] LSP Diagnostics"
+        }))
+        vim.keymap.set("n", "<leader>fi", telescope_builtin.lsp_implementations, vim.tbl_extend("error", opts, {
+            desc = "[Telescope] LSP Implementations"
+        }))
+        vim.keymap.set("n", "<leader>fd", telescope_builtin.lsp_definitions, vim.tbl_extend("error", opts, {
+            desc = "[Telescope] LSP Definitions"
+        }))
+        vim.keymap.set("n", "<leader>fr", telescope_builtin.lsp_references, vim.tbl_extend("error", opts, {
+            desc = "[Telescope] LSP References"
+        }))
+        vim.keymap.set("n", "<leader>ft", telescope_builtin.lsp_type_definitions, vim.tbl_extend("error", opts, {
+            desc = "[Telescope] LSP Type Definitions"
+        }))
     end
 })

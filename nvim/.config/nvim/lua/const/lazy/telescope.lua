@@ -69,19 +69,20 @@ return {
                 no_ignore = true,
                 no_ignore_parent = true,
             })
-        end)
+        end, { desc = "[Telescope] Find files" })
 
-        vim.keymap.set("n", "<leader>fo", builtin.live_grep)
-        vim.keymap.set("n", "<leader>fb", builtin.buffers)
-        vim.keymap.set("n", "<leader>fh", builtin.help_tags)
-        vim.keymap.set("n", "<leader>fg", builtin.git_files)
-        vim.keymap.set("n", "<leader>fj", builtin.jumplist)
-        vim.keymap.set("n", "<leader>fk", builtin.keymaps)
+        vim.keymap.set("n", "<leader>fo", builtin.live_grep, { desc = "[Telescope] Live grep" })
+        vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "[Telescope] Buffers" })
+        vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "[Telescope] Help tags" })
+        vim.keymap.set("n", "<leader>fg", builtin.git_files, { desc = "[Telescope] Git files" })
+        vim.keymap.set("n", "<leader>fj", builtin.jumplist, { desc = "[Telescope] Jumplist" })
+        vim.keymap.set("n", "<leader>fk", builtin.keymaps, { desc = "[Telescope] Keymaps" })
         vim.keymap.set("n", "<leader>fq", function()
             vim.cmd("ccl")
             builtin.quickfix()
-        end)
-        vim.keymap.set("n", "<leader>fc", "<cmd>Telescope neoclip<cr>")
+        end, { desc = "[Telescope] Quickfix" })
+        vim.keymap.set("n", "<leader>fc", "<cmd>Telescope neoclip<cr>", { desc = "[Telescope] Clipboard" })
+        vim.keymap.set("n", "<leader>fs", builtin.spell_suggest, { desc = "[Telescope] Spell suggestions" })
 
         local pickers = require("telescope.pickers")
         local finders = require("telescope.finders")
@@ -129,6 +130,6 @@ return {
             }):find()
         end
 
-        vim.keymap.set("n", "<leader>fl", live_multigrep)
+        vim.keymap.set("n", "<leader>fl", live_multigrep, { desc = "[Telescope] Live multi grep" })
     end
 }

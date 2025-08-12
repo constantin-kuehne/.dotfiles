@@ -42,7 +42,8 @@ local components = {
             if str == "" then
                 used_spaces_table["branch"] = 0
             else
-                used_spaces_table["branch"] = #evaled_str.str + 2 + 2 -- 2 is the length of padding, 2 is the length of the icon
+                used_spaces_table["branch"] = #evaled_str.str + 2 +
+                    2 -- 2 is the length of padding, 2 is the length of the icon
             end
             return str
         end,
@@ -84,22 +85,28 @@ local components = {
         icon = "󰀱",
         _separator = " ",
         indicators = { "1", "2", "3", "4", "5" },
-        active_indicators = { "[1]", "[2]", "[3]", "[4]", "[5]" },
+        -- active_indicators = { "𝟭", "𝟮", "𝟯", "𝟰", "𝟱" }, -- Using Unicode bold digits
+        active_indicators = { "1", "2", "3", "4", "5" },
         no_harpoon = "Harpoon not loaded",
+        color_active = {
+            fg = "#7aa2f7",
+            gui = "bold",
+        },
         separator = "",
         fmt = function(str)
             if str == "" then
                 used_spaces_table["harpoon"] = 0
                 return ""
             end
-            used_spaces_table["harpoon"] = 11 + 2 + 2 -- 11 is the max length of the indicators, 2 is the length of padding and 2 is the length of the icon
+            used_spaces_table["harpoon"] = 11 + 2 +
+                2 -- 11 is the max length of the indicators, 2 is the length of padding and 2 is the length of the icon
             return str
         end,
     },
     fill_space = {
         function()
             local used_space = used_spaces_table["mode"] + used_spaces_table["branch"] + used_spaces_table["filename"] +
-            used_spaces_table["filetype"]
+                used_spaces_table["filetype"]
             local win_width = vim.opt.columns:get()
             local fill_space = string.rep(
                 " ",

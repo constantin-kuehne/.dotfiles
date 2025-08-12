@@ -373,8 +373,8 @@ _o_/_h_: toggle output        _t_: toggle virt text   _n_: new cell
                 mode = { "n" },
                 body = "<leader>j", -- this is the key that triggers the hydra
                 heads = {
-                    { "j", keys("]b") },
-                    { "k", keys("[b") },
+                    { "j", keys("]b"), { desc = "next cell" } },
+                    { "k", keys("[b"), { desc = "previus cell" } },
                     { "r", function()
                         runner.run_cell(false)
                     end

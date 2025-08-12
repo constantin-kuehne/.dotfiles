@@ -1,6 +1,5 @@
 local python_formatter = {
-    "black",
-    "isort",
+    "ruff",
 }
 
 return {
@@ -18,11 +17,16 @@ return {
                 ensure_installed = formatter,
                 automatic_installation = false,
                 handlers = {
-                    ["black"] = function ()
+                    ["black"] = function()
                         null_ls.register(null_ls.builtins.formatting.black.with({
                             extra_args = { "--fast" }
                         }))
-                    end
+                    end,
+                    ["clang_format"] = function()
+                        null_ls.register(null_ls.builtins.formatting.clang_format.with({
+                            extra_args = { "--style=file" }
+                        }))
+                    end,
                 },
             })
 
