@@ -1,0 +1,10 @@
+#!/bin/bash
+
+options=(
+	blacklist="kitty"
+	width=3.0
+    hidpi=on
+    style=round
+)
+
+borders "${options[@]}"
