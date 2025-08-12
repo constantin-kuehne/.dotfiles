@@ -9,14 +9,19 @@ after-login-command = []
 # You can use it to add commands that run after AeroSpace startup.
 # 'after-startup-command' is run after 'after-login-command'
 # Available commands : https://nikitabobko.github.io/AeroSpace/commands
-after-startup-command = []
+after-startup-command = ['exec-and-forget sketchybar']
+
+# Notify Sketchybar about workspace change
+exec-on-workspace-change = ['/bin/bash', '-c',
+    'sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE'
+]
 
 # Start AeroSpace at login
-start-at-login = false
+start-at-login = true
 
 # Normalizations. See: https://nikitabobko.github.io/AeroSpace/guide#normalization
-enable-normalization-flatten-containers = false
-enable-normalization-opposite-orientation-for-nested-containers = false
+enable-normalization-flatten-containers = true
+enable-normalization-opposite-orientation-for-nested-containers = true
 
 # See: https://nikitabobko.github.io/AeroSpace/guide#layouts
 # The 'accordion-padding' specifies the size of accordion padding
@@ -61,15 +66,15 @@ automatically-unhide-macos-hidden-apps = false
     inner.vertical =   0
     outer.left =       0
     outer.bottom =     0
-    outer.top =        0
+    outer.top =        [{monitor."built-in" = 0}, 30]
     outer.right =      0
 
 [key-mapping.key-notation-to-key-code]
     oe = 'semicolon'
 
 [mode.main.binding]
-    alt-g = 'split vertical'
-    alt-v = 'split horizontal'
+#  alt-g = 'split vertical'
+#  alt-v = 'split horizontal'
 
     alt-f = 'fullscreen'
 
@@ -99,13 +104,13 @@ automatically-unhide-macos-hidden-apps = false
     alt-e = 'workspace 7'
 
     # See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
-    alt-shift-1 = 'move-node-to-workspace 1'
-    alt-shift-2 = 'move-node-to-workspace 2'
-    alt-shift-3 = 'move-node-to-workspace 3'
-    alt-shift-4 = 'move-node-to-workspace 4'
-    alt-shift-q = 'move-node-to-workspace 5'
-    alt-shift-w = 'move-node-to-workspace 6'
-    alt-shift-e = 'move-node-to-workspace 7'
+    alt-shift-1 = 'move-node-to-workspace 1 --focus-follows-window'
+    alt-shift-2 = 'move-node-to-workspace 2 --focus-follows-window'
+    alt-shift-3 = 'move-node-to-workspace 3 --focus-follows-window'
+    alt-shift-4 = 'move-node-to-workspace 4 --focus-follows-window'
+    alt-shift-q = 'move-node-to-workspace 5 --focus-follows-window'
+    alt-shift-w = 'move-node-to-workspace 6 --focus-follows-window'
+    alt-shift-e = 'move-node-to-workspace 7 --focus-follows-window'
 
     alt-shift-space = 'layout floating tiling' # 'floating toggle' in i3
 
@@ -120,6 +125,10 @@ automatically-unhide-macos-hidden-apps = false
 
     # See: https://nikitabobko.github.io/AeroSpace/commands#mode
     alt-shift-oe = 'mode service'
+    alt-c = 'exec-and-forget open -n /Applications/kitty.app'
+    # alt-b = 'exec-and-forget open /Applications/Arc.app'
+    alt-d = 'exec-and-forget open ~/Documents/'
+
 
 # 'service' binding mode declaration.
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
