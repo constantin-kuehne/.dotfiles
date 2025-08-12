@@ -10,7 +10,7 @@ source $ZSH/oh-my-zsh.sh
 # latexmk Seminararbeit.tex -auxdir=./AUX -bibtex -pdflua -pvc
 
 # export NOTES_PATH="~/Documents/Notes/"
-export NOTES_PATH="$HOME/Library/CloudStorage/OneDrive-Personal/Notes/Notes"
+export NOTES_PATH="$HOME/Library/Mobile\ Documents/iCloud\~md\~obsidian/Documents/Notes/"
 eval "tmux setenv notes_path $NOTES_PATH"
 
 alias v="nvim"
