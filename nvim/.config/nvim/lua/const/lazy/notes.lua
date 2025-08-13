@@ -19,6 +19,7 @@ return {
             "BufNewFile /Users/constantinkuehne/Library/CloudStorage/OneDrive-Personal/Notes/Notes/**/*.md",
             "BufNewFile /Users/constantinkuehne/Library/Mobile Documents/iCloud~md~obsidian/Documents/**/*.md",
             "BufReadPre /Users/constantinkuehne/Library/Mobile Documents/iCloud~md~obsidian/Documents/**/*.md",
+            "BufReadPre oil:///Users/constantinkuehne/Library/Mobile Documents/iCloud~md~obsidian/Documents/Notes/",
         },
         dependencies = {
             -- Required.
@@ -57,6 +58,8 @@ return {
             vim.keymap.set("n", "<leader>od", "<cmd>ObsidianToday<CR>", { desc = "Open Daily Note" })
             vim.keymap.set("n", "<leader>ot", "<cmd>ObsidianTemplate<CR>", { desc = "Insert Template" })
             vim.keymap.set("n", "<leader>ol", "<cmd>ObsidianFollowLink<CR>", { desc = "Follow Link" })
+
+            vim.keymap.set("n", "<leader>n", "<cmd>edit $notes_path/ToDos.md<CR>", { desc = "Open ToDos.md" })
 
             local function is_obsidian_vault()
                 local path = vim.fn.getcwd()
