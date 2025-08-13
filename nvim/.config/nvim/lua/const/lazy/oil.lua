@@ -29,7 +29,12 @@ return {
         view_options = {
             -- Show files and directories that start with "."
             show_hidden = true,
-        }
+        },
+        buf_options = {
+            buflisted = true,
+            bufhidden = "hide",
+        },
+        cleanup_delay_ms = false,
     },
     config = function(_, opts)
         require("oil").setup(opts)
