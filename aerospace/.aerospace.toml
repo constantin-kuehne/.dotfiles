@@ -126,7 +126,7 @@ automatically-unhide-macos-hidden-apps = false
     # See: https://nikitabobko.github.io/AeroSpace/commands#mode
     alt-shift-oe = 'mode service'
     alt-c = 'exec-and-forget open -n /Applications/kitty.app'
-    # alt-b = 'exec-and-forget open /Applications/Arc.app'
+    # alt-b = 'exec-and-forget open -n /Applications/Zen.app/' # somehow goes into "troubleshooting mode"
     alt-d = 'exec-and-forget open ~/Documents/'
 
 
@@ -157,3 +157,9 @@ automatically-unhide-macos-hidden-apps = false
     l = 'resize width +50'
     enter = 'mode main'
     esc = 'mode main'
+
+[[on-window-detected]]
+    if.during-aerospace-startup = false
+    if.app-id = 'app.zen-browser.zen'
+    if.window-title-regex-substring = 'Picture-in-Picture'
+    run = ['layout floating']
