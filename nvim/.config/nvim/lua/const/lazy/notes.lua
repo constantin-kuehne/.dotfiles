@@ -59,7 +59,7 @@ return {
             vim.keymap.set("n", "<leader>ot", "<cmd>ObsidianTemplate<CR>", { desc = "Insert Template" })
             vim.keymap.set("n", "<leader>ol", "<cmd>ObsidianFollowLink<CR>", { desc = "Follow Link" })
 
-            vim.keymap.set("n", "<leader>n", "<cmd>edit $notes_path/ToDos.md<CR>", { desc = "Open ToDos.md" })
+            vim.keymap.set("n", "<leader>n", "<cmd>edit " .. vim.env.NOTES_PATH .. "/ToDos.md<CR>", { desc = "Open ToDos.md" })
 
             local function is_obsidian_vault()
                 local path = vim.fn.getcwd()
@@ -71,7 +71,11 @@ return {
                 pattern = "markdown",
                 callback = function()
                     if is_obsidian_vault() then
-                        vim.opt_local.conceallevel = 2 -- or 3
+                        local plugin_name = "render-markdown"
+                        require("lazy.core.loader").disable_rtp_plugin(plugin_name)
+                        vim.notify("Unloaded " .. plugin_name .. " due to entering obsidian vault", vim.log.levels.WARN)
+
+                        vim.opt_local.conceallevel = 1 -- or 3
                         vim.opt_local.tabstop = 2
                         vim.opt_local.shiftwidth = 2
                         vim.opt_local.softtabstop = 2

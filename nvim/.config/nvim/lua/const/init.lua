@@ -124,6 +124,12 @@ autocmd("LspAttach", {
         vim.keymap.set("n", "<leader>dK", vim.diagnostic.open_float, vim.tbl_extend("error", opts, {
             desc = "LSP Diagnostic Float"
         }))
+        -- Use defaults for diagnostics
+        -- ]d to go to next diagnostic
+        -- [d to go to previous diagnostic
+        -- ]D to go to last diagnostic
+        -- [D to go to first diagnostic
+        -- <C-w>d to open diagnostic float in current window
         vim.keymap.set("n", "<leader>fe", telescope_builtin.diagnostics, vim.tbl_extend("error", opts, {
             desc = "[Telescope] LSP Diagnostics"
         }))

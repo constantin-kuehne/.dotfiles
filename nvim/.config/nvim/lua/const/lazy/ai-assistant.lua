@@ -44,13 +44,15 @@ return {
         },
         opts = {
             adapters = {
-                gemini = function()
-                    return require("codecompanion.adapters").extend("gemini", {
-                        env = {
-                            api_key = "cmd:pass show gemini-api"
-                        }
-                    })
-                end
+                http = {
+                    gemini = function()
+                        return require("codecompanion.adapters").extend("gemini", {
+                            env = {
+                                api_key = "cmd:pass show gemini-api"
+                            }
+                        })
+                    end
+                }
             },
             strategies = {
                 chat = {
@@ -101,12 +103,12 @@ return {
                     enabled = true,
                     auto_trigger = true,
                     keymap = {
-                        accept = "<M-l>",
+                        accept = "<C-l>",
                         accept_word = false,
                         accept_line = false,
-                        next = "<M-j>",
-                        prev = "<M-k>",
-                        dismiss = "<M-d>",
+                        next = "<C-j>",
+                        prev = "<C-k>",
+                        dismiss = "<C-d>",
                     }
                 },
                 panel = { enabled = true, auto_refresh = true, layout = { position = "right", ratio = 0.3 } },
@@ -119,37 +121,35 @@ return {
                 },
             })
 
-            -- require("copilot_cmp").setup()
+            local function is_online()
+                local handle = io.popen("ping -c 1 api.github.com >/dev/null 2>&1 && echo 1 || echo 0")
+                if not handle then
+                    return false
+                end
+                local result = handle:read("*a")
+                handle:close()
+                return tonumber(result) == 1
+            end
 
-            -- local function is_online()
-            --     local handle = io.popen("ping -c 1 api.github.com >/dev/null 2>&1 && echo 1 || echo 0")
-            --     if not handle then
-            --         return false
-            --     end
-            --     local result = handle:read("*a")
-            --     handle:close()
-            --     return tonumber(result) == 1
-            -- end
+            vim.api.nvim_create_autocmd("FocusLost", {
+                callback = function()
+                    if not is_online() then
+                        local plugin_name = "copilot.lua"
+                        require("lazy.core.loader").disable_rtp_plugin(plugin_name)
+                        vim.notify("Unloaded " .. plugin_name .. " due to no internet", vim.log.levels.WARN)
+                    end
+                end
+            })
 
-            -- vim.api.nvim_create_autocmd("FocusLost", {
-            --     callback = function()
-            --         if not is_online() then
-            --             local plugin_name = "copilot.lua"
-            --             require("lazy.core.loader").disable_rtp_plugin(plugin_name)
-            --             vim.notify("Unloaded " .. plugin_name .. " due to no internet", vim.log.levels.WARN)
-            --         end
-            --     end
-            -- })
-
-            -- vim.api.nvim_create_autocmd("FocusGained", {
-            --     callback = function()
-            --         local plugin_name = "github/copilot.vim"
-            --         if is_online() and not require("lazy.core.loader").load[plugin_name].loaded then
-            --             vim.cmd("Lazy load " .. plugin_name)
-            --             vim.notify("Reloaded " .. plugin_name .. " after regaining internet", vim.log.levels.INFO)
-            --         end
-            --     end
-            -- })
+            vim.api.nvim_create_autocmd("FocusGained", {
+                callback = function()
+                    local plugin_name = "copilot.lua"
+                    if is_online() and not require("lazy.core.config").plugins[plugin_name]._.loaded then
+                        vim.cmd("Lazy load " .. plugin_name)
+                        vim.notify("Reloaded " .. plugin_name .. " after regaining internet", vim.log.levels.INFO)
+                    end
+                end
+            })
         end,
     },
     {
