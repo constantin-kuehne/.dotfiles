@@ -78,7 +78,7 @@ automatically-unhide-macos-hidden-apps = false
 
     alt-f = 'fullscreen'
 
-    alt-s = 'layout v_accordion' # 'layout stacking' in i3
+    alt-v = 'layout v_accordion' # 'layout stacking' in i3
     alt-t = 'layout h_accordion' # 'layout tabbed' in i3
     alt-u = 'layout tiles horizontal vertical' # 'layout toggle split' in i3
 
@@ -102,6 +102,9 @@ automatically-unhide-macos-hidden-apps = false
     alt-q = 'workspace 5'
     alt-w = 'workspace 6'
     alt-e = 'workspace 7'
+    alt-a = 'workspace 8'
+    alt-s = 'workspace 9'
+    alt-d = 'workspace 10'
 
     # See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
     alt-shift-1 = 'move-node-to-workspace 1 --focus-follows-window'
@@ -111,6 +114,9 @@ automatically-unhide-macos-hidden-apps = false
     alt-shift-q = 'move-node-to-workspace 5 --focus-follows-window'
     alt-shift-w = 'move-node-to-workspace 6 --focus-follows-window'
     alt-shift-e = 'move-node-to-workspace 7 --focus-follows-window'
+    alt-shift-a = 'move-node-to-workspace 8 --focus-follows-window'
+    alt-shift-s = 'move-node-to-workspace 9 --focus-follows-window'
+    alt-shift-d = 'move-node-to-workspace 10 --focus-follows-window'
 
     alt-shift-space = 'layout floating tiling' # 'floating toggle' in i3
 
@@ -127,7 +133,7 @@ automatically-unhide-macos-hidden-apps = false
     alt-shift-oe = 'mode service'
     alt-c = 'exec-and-forget open -n /Applications/kitty.app'
     # alt-b = 'exec-and-forget open -n /Applications/Zen.app/' # somehow goes into "troubleshooting mode"
-    alt-d = 'exec-and-forget open ~/Documents/'
+    alt-x = 'exec-and-forget open ~/Documents/'
 
 
 # 'service' binding mode declaration.
