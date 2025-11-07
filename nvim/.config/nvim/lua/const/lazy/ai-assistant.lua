@@ -1,20 +1,26 @@
 return {
     {
         "MeanderingProgrammer/render-markdown.nvim",
-        enabled = function()
-            local function is_obsidian_vault()
-                local path = vim.fn.getcwd()
-                local stat = vim.loop.fs_stat(path .. "/.obsidian")
-                return stat and stat.type == "directory"
-            end
+        -- enabled = function()
+        --     local function is_obsidian_vault()
+        --         local path = vim.fn.getcwd()
+        --         local stat = vim.loop.fs_stat(path .. "/.obsidian")
+        --         return stat and stat.type == "directory"
+        --     end
 
-            return not is_obsidian_vault()
-        end,
+        --     return not is_obsidian_vault()
+        -- end,
         opts = {
             file_types = { "markdown", "Avante", "codecompanion" },
             code = {
                 style = "full",
                 border = "thin"
+            },
+            bullet = {
+                enabled = false
+            },
+            checkbox = {
+                enabled = true
             },
             ignore = function(bufnr)
                 local function is_buf_in_floating_win(bufnr)
@@ -40,7 +46,6 @@ return {
         dependencies = {
             "nvim-lua/plenary.nvim",
             "nvim-treesitter/nvim-treesitter",
-            "MeanderingProgrammer/render-markdown.nvim",
         },
         opts = {
             adapters = {
@@ -121,35 +126,35 @@ return {
                 },
             })
 
-            local function is_online()
-                local handle = io.popen("ping -c 1 api.github.com >/dev/null 2>&1 && echo 1 || echo 0")
-                if not handle then
-                    return false
-                end
-                local result = handle:read("*a")
-                handle:close()
-                return tonumber(result) == 1
-            end
+            -- local function is_online()
+            --     local handle = io.popen("ping -c 1 api.github.com >/dev/null 2>&1 && echo 1 || echo 0")
+            --     if not handle then
+            --         return false
+            --     end
+            --     local result = handle:read("*a")
+            --     handle:close()
+            --     return tonumber(result) == 1
+            -- end
 
-            vim.api.nvim_create_autocmd("FocusLost", {
-                callback = function()
-                    if not is_online() then
-                        local plugin_name = "copilot.lua"
-                        require("lazy.core.loader").disable_rtp_plugin(plugin_name)
-                        vim.notify("Unloaded " .. plugin_name .. " due to no internet", vim.log.levels.WARN)
-                    end
-                end
-            })
+            -- vim.api.nvim_create_autocmd("FocusLost", {
+            --     callback = function()
+            --         if not is_online() then
+            --             local plugin_name = "copilot.lua"
+            --             require("lazy.core.loader").disable_rtp_plugin(plugin_name)
+            --             vim.notify("Unloaded " .. plugin_name .. " due to no internet", vim.log.levels.WARN)
+            --         end
+            --     end
+            -- })
 
-            vim.api.nvim_create_autocmd("FocusGained", {
-                callback = function()
-                    local plugin_name = "copilot.lua"
-                    if is_online() and not require("lazy.core.config").plugins[plugin_name]._.loaded then
-                        vim.cmd("Lazy load " .. plugin_name)
-                        vim.notify("Reloaded " .. plugin_name .. " after regaining internet", vim.log.levels.INFO)
-                    end
-                end
-            })
+            -- vim.api.nvim_create_autocmd("FocusGained", {
+            --     callback = function()
+            --         local plugin_name = "copilot.lua"
+            --         if is_online() and not require("lazy.core.config").plugins[plugin_name]._.loaded then
+            --             vim.cmd("Lazy load " .. plugin_name)
+            --             vim.notify("Reloaded " .. plugin_name .. " after regaining internet", vim.log.levels.INFO)
+            --         end
+            --     end
+            -- })
         end,
     },
     {

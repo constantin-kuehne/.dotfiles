@@ -194,7 +194,7 @@ return {
         dependencies = {
             {
                 "jmbuhr/otter.nvim",
-                ft = { "markdown", "rmd", "quarto" },
+                ft = { "markdown", "rmd", "qmd", "quarto" },
                 config = function()
                     require("otter").setup({
                     })
@@ -202,10 +202,10 @@ return {
             },
             "nvim-treesitter/nvim-treesitter",
         },
-        ft = { "markdown", "rmd", "quarto" },
-        cond = function()
-            return vim.fn.has("python3") == 1
-        end,
+        ft = { "markdown", "rmd", "qmd", "quarto" },
+        -- cond = function()
+        --     return vim.fn.has("python3") == 1
+        -- end,
         config = function()
             local quarto = require("quarto")
             quarto.setup({
@@ -262,8 +262,7 @@ return {
         dependencies = {
             {
                 "quarto-dev/quarto-nvim",
-                ft = { "markdown", "rmd", "quarto"
-                }
+                ft = { "markdown", "rmd", "quarto", "qmd"}
             }
         },
         cond = function()

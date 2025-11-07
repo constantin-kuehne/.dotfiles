@@ -19,9 +19,11 @@ alias u="cd ~/Documents/Uni/"
 alias nvim_c="cd ~/.dotfiles/nvim/.config/nvim/"
 alias notes="cd $NOTES_PATH && nvim $NOTES_PATH"
 alias python3="python"
+alias one="cd /Users/constantinkuehne/Library/CloudStorage/OneDrive-Personal"
 
 
 export EDITOR="nvim"
+export MANPAGER="nvim +Man!"
 export NVIM_PATH="$HOME/.dotfiles/nvim/.config/nvim/"
 
 # make virtualenv invisible (we see it in oh-my-zsh theme)
@@ -79,9 +81,33 @@ function mamba() {
             eval "$__conda_setup"
         else
             if [ -f "/opt/homebrew/Caskroom/mambaforge/base/etc/profile.d/conda.sh" ]; then
-                . "/opt/homebrew/Caskroom/mambaforge/base/etc/profile.d/conda.sh"
+# . "/opt/homebrew/Caskroom/mambaforge/base/etc/profile.d/conda.sh"  # commented out by conda initialize
             else
-                export PATH="/opt/homebrew/Caskroom/mambaforge/base/bin:$PATH"
+# export PATH="/opt/homebrew/Caskroom/mambaforge/base/bin:$PATH"  # commented out by conda initialize
+            fi
+        fi
+        unset __conda_setup
+
+        if [ -f "/opt/homebrew/Caskroom/mambaforge/base/etc/profile.d/mamba.sh" ]; then
+            . "/opt/homebrew/Caskroom/mambaforge/base/etc/profile.d/mamba.sh"
+        fi
+        # <<< conda initialize <<<
+        mamba "$@"
+    fi
+}
+
+function conda() {
+    if [[ $- == *i* ]]; then
+        # >>> conda initialize >>>
+        # !! Contents within this block are managed by 'conda init' !!
+        __conda_setup="$('/opt/homebrew/Caskroom/mambaforge/base/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+        if [ $? -eq 0 ]; then
+            eval "$__conda_setup"
+        else
+            if [ -f "/opt/homebrew/Caskroom/mambaforge/base/etc/profile.d/conda.sh" ]; then
+# . "/opt/homebrew/Caskroom/mambaforge/base/etc/profile.d/conda.sh"  # commented out by conda initialize
+            else
+# export PATH="/opt/homebrew/Caskroom/mambaforge/base/bin:$PATH"  # commented out by conda initialize
             fi
         fi
         unset __conda_setup
@@ -138,3 +164,4 @@ eval "$(starship init zsh)"
 TRANSIENT_PROMPT_TRANSIENT_PROMPT='$(starship module directory)$(starship module character)'
 source /opt/homebrew/share/zsh-transient-prompt/transient-prompt.zsh-theme
 
+eval "$(zoxide init zsh)"

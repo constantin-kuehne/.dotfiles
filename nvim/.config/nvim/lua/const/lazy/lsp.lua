@@ -368,7 +368,9 @@ return {
                     ["<C-u>"] = cmp.mapping.scroll_docs(-4),
                     ["<C-d>"] = cmp.mapping.scroll_docs(4),
                     ["<C-Space>"] = (function()
-                        require("copilot.suggestion").toggle_auto_trigger()
+                        if package.loaded["copilot"] then
+                            require("copilot.suggestion").toggle_auto_trigger()
+                        end
                         return cmp.mapping.complete()
                     end)(),
                     ["<C-e>"] = cmp.mapping({

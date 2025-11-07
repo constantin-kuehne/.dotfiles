@@ -1,10 +1,10 @@
 local local_plugins = {
     {
-        "ipython-tmux",
+        name = "ipython-tmux",
         dir = "~/Documents/Coding/ipython-tmux.nvim",
         config = function()
             local ipython = require("ipython-tmux")
-            ipython.setup()
+            ipython.setup({})
 
             vim.keymap.set("n", "<leader>ic", ipython.connect, { silent = true, desc = "Connect to IPython" })
             vim.keymap.set("n", "<leader>id", ipython.disconnect, { silent = true, desc = "Disconnect from IPython" })
@@ -19,7 +19,7 @@ local local_plugins = {
     --     dir = "~/Documents/Coding/notebook.nvim"
     -- }
     {
-        "notes-list",
+        name = "notes-list",
         dir = "~/Documents/Coding/notes-list.nvim",
         config = function()
             local notes_list = require("notes-list")

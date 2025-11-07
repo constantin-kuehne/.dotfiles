@@ -43,6 +43,7 @@ return {
                 },
             },
         },
+        ---@type snacks.image.Config
         image = {
             enabled = true,
             doc = {
@@ -50,6 +51,24 @@ return {
                 max_width = 100,
                 max_height = 100,
             },
+            math = {
+                enabled = true,
+                latex = {
+                    font_size = "small", -- see https://www.sascha-frank.com/latex-font-size.html
+                    -- for latex documents, the doc packages are included automatically,
+                    -- but you can add more packages here. Useful for markdown documents.
+                    packages = { "amsmath", "amssymb", "amsfonts", "amscd", "mathtools" },
+                    tpl = [[
+        \documentclass[preview,border=0pt,varwidth,12pt]{standalone}
+        \usepackage{${packages}}
+        \begin{document}
+        ${header}
+        { \${font_size} \selectfont
+          \color[HTML]{${color}}
+        ${content}}
+        \end{document}]],
+                },
+            }
         },
         input = {
             enabled = true,

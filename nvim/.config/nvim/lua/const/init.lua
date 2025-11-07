@@ -48,11 +48,11 @@ local function remove_whitespace()
     vim.api.nvim_win_set_cursor(0, cursor_pos)
 end
 
-autocmd('BufWritePre', {
-    group = ConstGroup,
-    pattern = "*",
-    callback = remove_whitespace
-})
+-- autocmd('BufWritePre', {
+--     group = ConstGroup,
+--     pattern = "*",
+--     callback = remove_whitespace
+-- })
 
 vim.g.netrw_browse_split = 0
 vim.g.netrw_banner = 0

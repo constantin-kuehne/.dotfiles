@@ -22,16 +22,24 @@ return {
                     enable = true,
                     set_jumps = true, -- you can change this if you want.
                     goto_next_start = {
-                        ["]b"] = { query = "@code_cell.inner", desc = "next code block" },
+                        ["]b"] = { query = "@code_cell.inner", desc = "next code block start" },
+                        ["]c"] = { query = "@class.outer", desc = "next code class start" },
+                        ["]f"] = { query = "@function.outer", desc = "next code function start" },
                     },
                     goto_next_end = {
-                        ["]B"] = { query = "@code_cell.outer", desc = "next code block" },
+                        ["]B"] = { query = "@code_cell.outer", desc = "next code block end" },
+                        ["]C"] = { query = "@class.outer", desc = "next code class end" },
+                        ["]F"] = { query = "@function.outer", desc = "next code function end" },
                     },
                     goto_previous_start = {
-                        ["[b"] = { query = "@code_cell.inner", desc = "previous code block" },
+                        ["[b"] = { query = "@code_cell.inner", desc = "previous code block start" },
+                        ["[c"] = { query = "@class.outer", desc = "previous code class start" },
+                        ["[f"] = { query = "@function.outer", desc = "previous code function start" },
                     },
                     goto_previous_end = {
-                        ["[B"] = { query = "@code_cell.outer", desc = "previous code block" },
+                        ["[B"] = { query = "@code_cell.outer", desc = "previous code block end" },
+                        ["[C"] = { query = "@class.outer", desc = "previous code class end" },
+                        ["[F"] = { query = "@function.outer", desc = "previous code function end" },
                     },
                 },
                 select = {
@@ -41,6 +49,16 @@ return {
                         --- ... other keymaps
                         ["ib"] = { query = "@code_cell.inner", desc = "in block" },
                         ["ab"] = { query = "@code_cell.outer", desc = "around block" },
+                        ["af"] = { query = "@function.outer", desc = "around function" },
+                        ["if"] = { query = "@function.inner", desc = "inner function" },
+                        ["ac"] = { query = "@class.outer", desc = "outer class" },
+                        ["ic"] = { query = "@class.inner", desc = "inner class" },
+                        ["al"] = { query = "@loop.outer", desc = "outer loop" },
+                        ["il"] = { query = "@loop.inner", desc = "inner loop" },
+                        ["as"] = { query = "@statement.outer", desc = "outer statement" },
+                        ["ad"] = { query = "@conditional.outer", desc = "outer conditional" },
+                        ["id"] = { query = "@conditional.inner", desc = "inner conditional" },
+                        ["a#"] = { query = "@comment.outer", desc = "outer comment" },
                     },
                 },
                 swap = { -- Swap only works with code blocks that are under the same

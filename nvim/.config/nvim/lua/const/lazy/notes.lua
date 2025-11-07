@@ -1,3 +1,9 @@
+local function is_obsidian_vault()
+    local path = vim.fn.getcwd()
+    local stat = vim.loop.fs_stat(path .. "/.obsidian")
+    return stat and stat.type == "directory"
+end
+
 return {
     {
         "epwalsh/obsidian.nvim",
@@ -6,21 +12,27 @@ return {
         ft = "markdown",
         -- Replace the above line with this if you only want to load obsidian.nvim for markdown files in your vault:
         event = {
-            -- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand'.
-            -- E.g. "BufReadPre " .. vim.fn.expand "~" .. "/my-vault/*.md"
-            -- refer to `:h file-pattern` for more examples
-            "BufReadPre /Users/constantinkuehne/Library/CloudStorage/OneDrive-Personal/StudyObsidian/*.md",
-            "BufNewFile /Users/constantinkuehne/Library/CloudStorage/OneDrive-Personal/StudyObsidian/*.md",
-            "BufReadPre /Users/constantinkuehne/Library/CloudStorage/OneDrive-Personal/StudyObsidian/**/*.md",
-            "BufNewFile /Users/constantinkuehne/Library/CloudStorage/OneDrive-Personal/StudyObsidian/**/*.md",
-            "BufReadPre /Users/constantinkuehne/Library/CloudStorage/OneDrive-Personal/Notes/Notes/*.md",
-            "BufNewFile /Users/constantinkuehne/Library/CloudStorage/OneDrive-Personal/Notes/Notes/*.md",
-            "BufReadPre /Users/constantinkuehne/Library/CloudStorage/OneDrive-Personal/Notes/Notes/**/*.md",
-            "BufNewFile /Users/constantinkuehne/Library/CloudStorage/OneDrive-Personal/Notes/Notes/**/*.md",
-            "BufNewFile /Users/constantinkuehne/Library/Mobile Documents/iCloud~md~obsidian/Documents/**/*.md",
-            "BufReadPre /Users/constantinkuehne/Library/Mobile Documents/iCloud~md~obsidian/Documents/**/*.md",
-            "BufReadPre oil:///Users/constantinkuehne/Library/Mobile Documents/iCloud~md~obsidian/Documents/Notes/",
+            --     -- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand'.
+            --     -- E.g. "BufReadPre " .. vim.fn.expand "~" .. "/my-vault/*.md"
+            --     -- refer to `:h file-pattern` for more examples
+            "BufReadPre **/*.md",
+            "BufNewFile **/*.md",
+            "BufReadPre **/*.md",
+            --     "BufReadPre /Users/constantinkuehne/Library/CloudStorage/OneDrive-Personal/StudyObsidian/*.md",
+            --     "BufNewFile /Users/constantinkuehne/Library/CloudStorage/OneDrive-Personal/StudyObsidian/*.md",
+            --     "BufReadPre /Users/constantinkuehne/Library/CloudStorage/OneDrive-Personal/StudyObsidian/**/*.md",
+            --     "BufNewFile /Users/constantinkuehne/Library/CloudStorage/OneDrive-Personal/StudyObsidian/**/*.md",
+            --     "BufReadPre /Users/constantinkuehne/Library/CloudStorage/OneDrive-Personal/Notes/Notes/*.md",
+            --     "BufNewFile /Users/constantinkuehne/Library/CloudStorage/OneDrive-Personal/Notes/Notes/*.md",
+            --     "BufReadPre /Users/constantinkuehne/Library/CloudStorage/OneDrive-Personal/Notes/Notes/**/*.md",
+            --     "BufNewFile /Users/constantinkuehne/Library/CloudStorage/OneDrive-Personal/Notes/Notes/**/*.md",
+            --     "BufNewFile /Users/constantinkuehne/Library/Mobile Documents/iCloud~md~obsidian/Documents/**/*.md",
+            --     "BufReadPre /Users/constantinkuehne/Library/Mobile Documents/iCloud~md~obsidian/Documents/**/*.md",
+            --     "BufReadPre oil:///Users/constantinkuehne/Library/Mobile Documents/iCloud~md~obsidian/Documents/Notes/",
         },
+        enabled = function()
+            return is_obsidian_vault()
+        end,
         dependencies = {
             -- Required.
             "nvim-lua/plenary.nvim",
@@ -33,6 +45,9 @@ return {
                 date_format = "%Y-%m-%d",
                 default_tags = { "daily-notes" },
                 template = nil
+            },
+            ui = {
+                enable = false
             },
             workspaces = {
                 {
@@ -47,6 +62,10 @@ return {
                     name = "notes",
                     path = "/Users/constantinkuehne/Library/Mobile Documents/iCloud~md~obsidian/Documents/Notes",
                 },
+                {
+                    name = "master_thesis",
+                    path = "/Users/constantinkuehne/Documents/Uni/Master/Semester5/Masterarbeit"
+                }
             },
 
             -- see below for full list of options 👇
@@ -59,13 +78,9 @@ return {
             vim.keymap.set("n", "<leader>ot", "<cmd>ObsidianTemplate<CR>", { desc = "Insert Template" })
             vim.keymap.set("n", "<leader>ol", "<cmd>ObsidianFollowLink<CR>", { desc = "Follow Link" })
 
-            vim.keymap.set("n", "<leader>n", "<cmd>edit " .. vim.env.NOTES_PATH .. "/ToDos.md<CR>", { desc = "Open ToDos.md" })
+            vim.keymap.set("n", "<leader>n", "<cmd>edit " .. vim.env.NOTES_PATH .. "/ToDos.md<CR>",
+                { desc = "Open ToDos.md" })
 
-            local function is_obsidian_vault()
-                local path = vim.fn.getcwd()
-                local stat = vim.loop.fs_stat(path .. "/.obsidian")
-                return stat and stat.type == "directory"
-            end
 
             vim.api.nvim_create_autocmd("FileType", {
                 pattern = "markdown",
@@ -73,13 +88,15 @@ return {
                     if is_obsidian_vault() then
                         local plugin_name = "render-markdown"
                         require("lazy.core.loader").disable_rtp_plugin(plugin_name)
-                        vim.notify("Unloaded " .. plugin_name .. " due to entering obsidian vault", vim.log.levels.WARN)
 
-                        vim.opt_local.conceallevel = 1 -- or 3
+                        vim.opt_local.conceallevel = 2 -- or 3
                         vim.opt_local.tabstop = 2
                         vim.opt_local.shiftwidth = 2
                         vim.opt_local.softtabstop = 2
                         vim.opt_local.expandtab = true
+                        vim.opt_local.spell = true
+                        vim.opt_local.wrap = true
+                        vim.opt_local.linebreak = true
                     end
                 end,
             })

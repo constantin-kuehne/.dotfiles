@@ -6,6 +6,17 @@ return {
         -- refer to the configuration section below
         window = {
             width = .70
+        },
+        plugins = {
+            options = {
+                enabled = true,
+                ruler = true,
+                showcmd = true,
+                laststatus = 0,
+            },
+            tmux = {
+                enabled = true,
+            },
         }
     }
 }
