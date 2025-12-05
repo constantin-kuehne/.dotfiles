@@ -64,7 +64,7 @@ return {
                 },
                 {
                     name = "master_thesis",
-                    path = "/Users/constantinkuehne/Documents/Uni/Master/Semester5/Masterarbeit"
+                    path = "/Users/constantinkuehne/Library/CloudStorage/OneDrive-Personal/Uni/Master/Semester5/Masterarbeit/Notes"
                 }
             },
 

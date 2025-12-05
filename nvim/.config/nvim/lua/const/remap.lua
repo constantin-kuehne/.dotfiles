@@ -38,5 +38,7 @@ vim.keymap.set("v", "<leader>rq", "<cmd>normal @<cr>", { desc = "Run macro in vi
 
 vim.keymap.set("n", "<C-j>", "<cmd>cnext<CR>zz", { desc = "Next Quickfix" })
 vim.keymap.set("n", "<C-k>", "<cmd>cprev<CR>zz", { desc = "Previous Quickfix" })
+vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", { noremap = true })
+
 -- vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz")
 -- vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")

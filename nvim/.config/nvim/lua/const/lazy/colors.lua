@@ -10,7 +10,7 @@ function ColorMyPencils(color)
     })
 end
 
-return {
+local config = {
     { "erikbackman/brightburn.vim" }, {
     "ellisonleao/gruvbox.nvim",
     name = "gruvbox",
@@ -51,6 +51,7 @@ return {
                 }
             }
         })
+        ColorMyPencils("gruvbox")
     end
 }, {
     "folke/tokyonight.nvim",
@@ -63,7 +64,6 @@ return {
             style = "night",    -- The theme comes in three styles, `storm`, `moon`, a darker variant `night` and `day`
             transparent = false -- Enable this to disable setting the background color
         })
-        ColorMyPencils()
     end
 }, {
     "rose-pine/neovim",
@@ -75,7 +75,7 @@ return {
                 italic = false
             }
         })
-
-        ColorMyPencils();
     end
 } }
+
+return config

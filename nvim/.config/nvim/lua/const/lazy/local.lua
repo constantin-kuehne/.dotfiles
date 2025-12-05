@@ -2,6 +2,9 @@ local local_plugins = {
     {
         name = "ipython-tmux",
         dir = "~/Documents/Coding/ipython-tmux.nvim",
+        cond = function()
+            return not vim.g.remote_neovim_host
+        end,
         config = function()
             local ipython = require("ipython-tmux")
             ipython.setup({})
@@ -21,6 +24,9 @@ local local_plugins = {
     {
         name = "notes-list",
         dir = "~/Documents/Coding/notes-list.nvim",
+        cond = function()
+            return not vim.g.remote_neovim_host
+        end,
         config = function()
             local notes_list = require("notes-list")
 

@@ -10,6 +10,9 @@ return {
 
         --     return not is_obsidian_vault()
         -- end,
+        cond = function()
+            return not vim.g.remote_neovim_host
+        end,
         opts = {
             file_types = { "markdown", "Avante", "codecompanion" },
             code = {
@@ -42,7 +45,97 @@ return {
         ft = { "markdown", "Avante", "codecompanion" },
     },
     {
+        "folke/sidekick.nvim",
+        cmd = "Sidekick",
+        cond = function()
+            return not vim.g.remote_neovim_host
+        end,
+        opts = {
+            -- add any options here
+            cli = {
+                mux = {
+                    backend = "tmux",
+                    enabled = true,
+                    create = "split",
+                    split = {
+                        vertical = true, -- vertical or horizontal split
+                        size = 0.4,      -- size of the split (0-1 for percentage)
+                    },
+                },
+            },
+            nes = {
+                enabled = true,
+            }
+        },
+        keys = {
+            {
+                "<tab>",
+                function()
+                    -- if there is a next edit, jump to it, otherwise apply it if any
+                    if not require("sidekick").nes_jump_or_apply() then
+                        return "<Tab>" -- fallback to normal tab
+                    end
+                end,
+                expr = true,
+                desc = "Goto/Apply Next Edit Suggestion",
+            },
+            {
+                "<c-.>",
+                function() require("sidekick.cli").toggle() end,
+                desc = "Sidekick Toggle",
+                mode = { "n", "t", "i", "x" },
+            },
+            {
+                "<leader>aa",
+                function() require("sidekick.cli").toggle() end,
+                desc = "Sidekick Toggle CLI",
+            },
+            {
+                "<leader>as",
+                function() require("sidekick.cli").select() end,
+                -- Or to select only installed tools:
+                -- require("sidekick.cli").select({ filter = { installed = true } })
+                desc = "Select CLI",
+            },
+            {
+                "<leader>ad",
+                function() require("sidekick.cli").close() end,
+                desc = "Detach a CLI Session",
+            },
+            {
+                "<leader>at",
+                function() require("sidekick.cli").send({ msg = "{this}" }) end,
+                mode = { "x", "n" },
+                desc = "Send This",
+            },
+            {
+                "<leader>af",
+                function() require("sidekick.cli").send({ msg = "{file}" }) end,
+                desc = "Send File",
+            },
+            {
+                "<leader>av",
+                function() require("sidekick.cli").send({ msg = "{selection}" }) end,
+                mode = { "x" },
+                desc = "Send Visual Selection",
+            },
+            {
+                "<leader>ap",
+                function() require("sidekick.cli").prompt() end,
+                mode = { "n", "x" },
+                desc = "Sidekick Select Prompt",
+            },
+            -- Example of a keybinding to open Claude directly
+            {
+                "<leader>ac",
+                function() require("sidekick.cli").toggle({ name = "claude", focus = true }) end,
+                desc = "Sidekick Toggle Claude",
+            },
+        },
+    },
+    {
         "olimorris/codecompanion.nvim",
+        enabled = false,
         dependencies = {
             "nvim-lua/plenary.nvim",
             "nvim-treesitter/nvim-treesitter",
@@ -99,14 +192,28 @@ return {
     {
         -- "zbirenbaum/copilot-cmp",
         "zbirenbaum/copilot.lua",
+        cond = function()
+            return not vim.g.remote_neovim_host
+        end,
         lazy = false,
         -- dependencies = { { "zbirenbaum/copilot.lua", lazy = false } },
+        dependencies = {
+            {
+                "copilotlsp-nvim/copilot-lsp",
+                init = function()
+                    vim.g.copilot_nes_debounce = 10
+                end
+            }
+        },
         enabled = true,
+        cmd = "Copilot",
+        event = "InsertEnter",
         config = function()
             require("copilot").setup({
                 suggestion = {
                     enabled = true,
                     auto_trigger = true,
+                    hide_during_completion = true,
                     keymap = {
                         accept = "<C-l>",
                         accept_word = false,
@@ -117,6 +224,15 @@ return {
                     }
                 },
                 panel = { enabled = true, auto_refresh = true, layout = { position = "right", ratio = 0.3 } },
+                nes = {
+                    enabled = false,
+                    auto_trigger = true,
+                    keymap = {
+                        accept_and_goto = "<leader>n",
+                        accept = false,
+                        dismiss = "<ESC>",
+                    },
+                },
                 server_opts_overrides = {
                     settings = {
                         telemetry = {
@@ -125,6 +241,18 @@ return {
                     },
                 },
             })
+
+            vim.api.nvim_create_user_command("CopilotToggle", function()
+                if vim.g.copilot_enabled == false then
+                    vim.g.copilot_enabled = true
+                    require("copilot.suggestion").toggle_auto_trigger()
+                    vim.notify("Copilot Enabled", vim.log.levels.INFO)
+                else
+                    vim.g.copilot_enabled = false
+                    require("copilot.suggestion").toggle_auto_trigger()
+                    vim.notify("Copilot Disabled", vim.log.levels.WARN)
+                end
+            end, { desc = "Toggle GitHub Copilot" })
 
             -- local function is_online()
             --     local handle = io.popen("ping -c 1 api.github.com >/dev/null 2>&1 && echo 1 || echo 0")
@@ -160,6 +288,9 @@ return {
     {
         "yetone/avante.nvim",
         event = "VeryLazy",
+        cond = function()
+            return not vim.g.remote_neovim_host
+        end,
         enabled = false,
         version = false, -- set this if you want to always pull the latest change
         -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`

@@ -131,19 +131,19 @@ autocmd("LspAttach", {
         -- [D to go to first diagnostic
         -- <C-w>d to open diagnostic float in current window
         vim.keymap.set("n", "<leader>fe", telescope_builtin.diagnostics, vim.tbl_extend("error", opts, {
-            desc = "[Telescope] LSP Diagnostics"
+            desc = "[] LSP Diagnostics"
         }))
         vim.keymap.set("n", "<leader>fi", telescope_builtin.lsp_implementations, vim.tbl_extend("error", opts, {
-            desc = "[Telescope] LSP Implementations"
+            desc = "[] LSP Implementations"
         }))
         vim.keymap.set("n", "<leader>fd", telescope_builtin.lsp_definitions, vim.tbl_extend("error", opts, {
-            desc = "[Telescope] LSP Definitions"
+            desc = "[] LSP Definitions"
         }))
         vim.keymap.set("n", "<leader>fr", telescope_builtin.lsp_references, vim.tbl_extend("error", opts, {
-            desc = "[Telescope] LSP References"
+            desc = "[] LSP References"
         }))
         vim.keymap.set("n", "<leader>ft", telescope_builtin.lsp_type_definitions, vim.tbl_extend("error", opts, {
-            desc = "[Telescope] LSP Type Definitions"
+            desc = "[] LSP Type Definitions"
         }))
     end
 })
